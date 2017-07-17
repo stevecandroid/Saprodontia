@@ -13,14 +13,17 @@ import android.widget.TextView;
 
 import com.example.saprodontia.Activities.SendActivity;
 import com.example.saprodontia.Models.AppInfo;
+import com.example.saprodontia.Models.SocketModle;
 import com.example.saprodontia.R;
 import com.example.saprodontia.Utils.LogUtil;
 import com.example.saprodontia.Utils.MathUtil;
+import com.example.saprodontia.Utils.ToastUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -32,16 +35,22 @@ import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
-    List<AppInfo> mDatas;
-    List<String> checkPos;
+      private  List<AppInfo> mDatas;
+      private  List<String> checkPos;
+      private  SocketModle socketModle ;
+      private  ArrayList<AppInfo> sendDatas;
 
     public Adapter(Context context , List<AppInfo> mDatas){
         this.mDatas = mDatas;
         checkPos = new ArrayList<>();
+        socketModle = new SocketModle(context);
+        sendDatas = new ArrayList<>();
+
         ((SendActivity)context).setOnSendListener(new SendActivity.OnSendListener() {
             @Override
             public void send() {
-
+                ToastUtil.showToast("SENDDING!!!");
+                socketModle.shareFile(sendDatas);
             }
         });
 
@@ -56,7 +65,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-            float size;
+            final float size;
             holder.tv_appname.setText( mDatas.get(position).getName());
             holder.image_app.setImageDrawable(mDatas.get(position).getIcon());
 
@@ -78,9 +87,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
                     if(!holder.checkBox.isChecked()) {
                         holder.checkBox.setChecked(true);
                         checkPos.add(mDatas.get(position).getLocation());
+                        sendDatas.add(mDatas.get(position));
                     }else{
                         holder.checkBox.setChecked(false);
                         checkPos.remove(Integer.valueOf(position));
+                        sendDatas.remove(mDatas.get(position));
                     }
                 }
             });

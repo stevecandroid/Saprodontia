@@ -1,6 +1,7 @@
 package com.example.saprodontia.Activities;
 
 import android.Manifest;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -10,12 +11,14 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.format.Formatter;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -31,10 +34,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.List;
@@ -157,8 +162,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-        WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        WifiConfiguration config = new WifiConfiguration();
+//        WifiP2pManager wm = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
+
+
+//
+//
+//        WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+//        WifiConfiguration config = new WifiConfiguration();
 //        config.SSID = "Saprodontia";
 //        config.preSharedKey="123456789";
 //        try {
@@ -184,16 +194,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        SocketModle socketModle = new SocketModle();
 //        LogUtil.e(socketModle.connectWifi("KNT-AL20"));
 
-        wm.startScan();
-//        wm.setWifiEnabled(true);
-        List<ScanResult> results = wm.getScanResults();
-        List <WifiConfiguration> configs = wm.getConfiguredNetworks();
-
-
-        wm.disconnect();
-
-
-        WifiConfiguration con = new WifiConfiguration();
+//        wm.startScan();
+////        wm.setWifiEnabled(true);
+//        List<ScanResult> results = wm.getScanResults();
+//        List <WifiConfiguration> configs = wm.getConfiguredNetworks();
+//
+//
+//        wm.disconnect();
+//
+//
+//        WifiConfiguration con = new WifiConfiguration();
 
 
 //        for(ScanResult c : results){
@@ -209,8 +219,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        for(WifiConfiguration c: configs){
 //            LogUtil.e(c.SSID +" " + c.networkId);
 //        }
-
-        wm.enableNetwork(42,true);
+//
+//        wm.enableNetwork(42,true);
 
 
     }
@@ -228,11 +238,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch(v.getId()){
             case R.id.bt_receive:{
                 ToastUtil.showToast("RECEIVE");
-                // TODO: 2017/7/16
+
+
+
+                // TODO: OPEN CONNECT WIFI  && START SERVICE
                 break;
             }
             case R.id.bt_send :{
-                ToastUtil.showToast("SEND");
                 startActivity(new Intent(MainActivity.this,SendActivity.class));
                 // TODO: 2017/7/16
                 break;

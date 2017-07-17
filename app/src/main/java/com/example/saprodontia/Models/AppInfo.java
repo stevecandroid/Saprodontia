@@ -1,18 +1,44 @@
 package com.example.saprodontia.Models;
 
 import android.graphics.drawable.Drawable;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
 
 /**
  * Created by 铖哥 on 2017/7/16.
  */
 
 
-public class AppInfo {
+public class AppInfo implements Parcelable {
 
-    private Drawable icon;
+
+    private transient Drawable icon;
     private String name;
-    private float size;
+    private transient float size;
     private String location;
+
+    protected AppInfo(Parcel in) {
+        name = in.readString();
+        location = in.readString();
+    }
+
+    public AppInfo(){
+
+    }
+
+    public static final Creator<AppInfo> CREATOR = new Creator<AppInfo>() {
+        @Override
+        public AppInfo createFromParcel(Parcel in) {
+            return new AppInfo(in);
+        }
+
+        @Override
+        public AppInfo[] newArray(int size) {
+            return new AppInfo[size];
+        }
+    };
 
     public String getLocation() {
         return location;
@@ -44,5 +70,16 @@ public class AppInfo {
 
     public void setSize(float size) {
         this.size = size;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(location);
     }
 }
