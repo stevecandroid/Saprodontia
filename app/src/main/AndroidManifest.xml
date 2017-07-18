@@ -31,11 +31,13 @@
         <activity android:name=".Activities.SendActivity" />
 
         <service
-            android:name=".SendService"
+            android:name=".Service.SendService"
             android:exported="false" />
         <service
-            android:name=".ReceService"
-            android:exported="false"></service>
+            android:name=".Service.ReceService"
+            android:exported="false" />
+
+        <activity android:name=".Activities.DownActivity"></activity>
     </application>
 
 </manifest>

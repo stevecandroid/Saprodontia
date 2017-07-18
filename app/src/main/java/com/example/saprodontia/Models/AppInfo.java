@@ -4,20 +4,17 @@ import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
-
 /**
  * Created by 铖哥 on 2017/7/16.
  */
 
 
-public class AppInfo implements Parcelable {
+public class AppInfo extends BaseInfo implements Parcelable {
 
 
     private transient Drawable icon;
-    private String name;
     private transient float size;
-    private String location;
+
 
     protected AppInfo(Parcel in) {
         name = in.readString();
@@ -25,7 +22,6 @@ public class AppInfo implements Parcelable {
     }
 
     public AppInfo(){
-
     }
 
     public static final Creator<AppInfo> CREATOR = new Creator<AppInfo>() {

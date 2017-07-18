@@ -1,31 +1,16 @@
 package com.example.saprodontia.Models;
 
-import android.app.IntentService;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.wifi.ScanResult;
-import android.net.wifi.WifiConfiguration;
-import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.Bundle;
-import android.os.Environment;
-import android.support.annotation.Nullable;
-import android.text.format.Formatter;
 
 import com.example.saprodontia.Application.App;
-import com.example.saprodontia.SendService;
-import com.example.saprodontia.Utils.LogUtil;
+import com.example.saprodontia.Service.SendService;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.OutputStream;
-import java.io.Serializable;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by 铖哥 on 2017/7/16.
@@ -43,7 +28,7 @@ public class SocketModle {
         wm = (WifiManager) App.getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
     }
 
-    public  void shareFile(ArrayList<AppInfo> datas){
+    public  void shareFile(ArrayList<BaseInfo> datas){
 
         Intent intent = new Intent(App.getContext(),SendService.class);
         intent.putParcelableArrayListExtra("datas",datas);

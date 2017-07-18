@@ -1,48 +1,16 @@
 package com.example.saprodontia.Activities;
 
-import android.Manifest;
-import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.net.wifi.ScanResult;
-import android.net.wifi.WifiConfiguration;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
-import android.net.wifi.p2p.WifiP2pManager;
-import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.format.Formatter;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.example.saprodontia.Models.SocketModle;
 import com.example.saprodontia.R;
-import com.example.saprodontia.Utils.LogUtil;
+import com.example.saprodontia.Service.ReceService;
 import com.example.saprodontia.Utils.ToastUtil;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -151,7 +119,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            }
 //        }).start();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        View include = findViewById(R.id.abar_main);
+        Toolbar toolbar = (Toolbar) include.findViewById(R.id.toolbar);
         Button bt_receive = (Button) findViewById(R.id.bt_receive);
         Button bt_send = (Button) findViewById(R.id.bt_send);
         bt_receive.setOnClickListener(this);
@@ -237,10 +206,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.bt_receive:{
-                ToastUtil.showToast("RECEIVE");
 
-
-
+                startActivity(new Intent(MainActivity.this,DownActivity.class));
+//                startService(new Intent(MainActivity.this, ReceService.class));
                 // TODO: OPEN CONNECT WIFI  && START SERVICE
                 break;
             }

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.saprodontia.Activities.SendActivity;
 import com.example.saprodontia.Models.AppInfo;
+import com.example.saprodontia.Models.BaseInfo;
 import com.example.saprodontia.Models.SocketModle;
 import com.example.saprodontia.R;
 import com.example.saprodontia.Utils.LogUtil;
@@ -38,7 +39,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
       private  List<AppInfo> mDatas;
       private  List<String> checkPos;
       private  SocketModle socketModle ;
-      private  ArrayList<AppInfo> sendDatas;
+      private  ArrayList<BaseInfo> sendDatas;
 
     public Adapter(Context context , List<AppInfo> mDatas){
         this.mDatas = mDatas;
@@ -90,7 +91,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
                         sendDatas.add(mDatas.get(position));
                     }else{
                         holder.checkBox.setChecked(false);
-                        checkPos.remove(Integer.valueOf(position));
+                        checkPos.remove(mDatas.get(position).getLocation());
                         sendDatas.remove(mDatas.get(position));
                     }
                 }
