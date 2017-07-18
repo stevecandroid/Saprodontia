@@ -1,43 +1,19 @@
 package com.example.saprodontia.Activities;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
-import android.net.wifi.p2p.WifiP2pConfig;
-import android.net.wifi.p2p.WifiP2pDevice;
-import android.net.wifi.p2p.WifiP2pDeviceList;
-import android.net.wifi.p2p.WifiP2pManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.Formatter;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
-import android.widget.Switch;
 
 import com.example.saprodontia.Adapter.Adapter;
-import com.example.saprodontia.Models.AppInfo;
+import com.example.saprodontia.Models.FileInfo;
 import com.example.saprodontia.Models.AppInfoModle;
 import com.example.saprodontia.R;
-import com.example.saprodontia.Utils.LogUtil;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 public class SendActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -45,7 +21,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
     private AppInfoModle mAppInfoModle;
     private Adapter adapter;
 //    private WifiReceiver mWifiReceiver;
-    private List<AppInfo> infos;
+    private List<FileInfo> infos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +67,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
 //        for(ApplicationInfo info : infos){
 //            LogUtil.e(info.loadLabel(getPackageManager()));
 //        }
-//        List<AppInfo> t = AppInfoModle.getSimAppinfos();
+//        List<FileInfo> t = AppInfoModle.getSimAppinfos();
 
 
 //

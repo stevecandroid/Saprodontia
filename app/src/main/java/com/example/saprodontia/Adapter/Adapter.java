@@ -1,7 +1,6 @@
 package com.example.saprodontia.Adapter;
 
 import android.content.Context;
-import android.os.Environment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,21 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.saprodontia.Activities.SendActivity;
-import com.example.saprodontia.Models.AppInfo;
-import com.example.saprodontia.Models.BaseInfo;
+import com.example.saprodontia.Models.FileInfo;
 import com.example.saprodontia.Models.SocketModle;
 import com.example.saprodontia.R;
-import com.example.saprodontia.Utils.LogUtil;
 import com.example.saprodontia.Utils.MathUtil;
 import com.example.saprodontia.Utils.ToastUtil;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.lang.reflect.Array;
-import java.net.InetAddress;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,14 +26,12 @@ import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
-      private  List<AppInfo> mDatas;
-      private  List<String> checkPos;
+      private  List<FileInfo> mDatas;
       private  SocketModle socketModle ;
-      private  ArrayList<BaseInfo> sendDatas;
+      private  ArrayList<FileInfo> sendDatas;
 
-    public Adapter(Context context , List<AppInfo> mDatas){
+    public Adapter(Context context , List<FileInfo> mDatas){
         this.mDatas = mDatas;
-        checkPos = new ArrayList<>();
         socketModle = new SocketModle(context);
         sendDatas = new ArrayList<>();
 
@@ -66,17 +54,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-            final float size;
             holder.tv_appname.setText( mDatas.get(position).getName());
             holder.image_app.setImageDrawable(mDatas.get(position).getIcon());
+            holder.tv_appsize.setText(mDatas.get(position).getSize());
 
-        if( ( size = mDatas.get(position).getSize()) >= 1024){
-            holder.tv_appsize.setText(MathUtil.keepTwoDecimals(size/1024.f) + " MB");
-        }else{
-            holder.tv_appsize.setText(size + " KB");
-        }
 
-        if(belong(checkPos,position)){
+        if(belong(sendDatas,position)){
             holder.checkBox.setChecked(true);
         }else{
             holder.checkBox.setChecked(false);
@@ -87,11 +70,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
                 public void onClick(View v) {
                     if(!holder.checkBox.isChecked()) {
                         holder.checkBox.setChecked(true);
-                        checkPos.add(mDatas.get(position).getLocation());
                         sendDatas.add(mDatas.get(position));
                     }else{
                         holder.checkBox.setChecked(false);
-                        checkPos.remove(mDatas.get(position).getLocation());
                         sendDatas.remove(mDatas.get(position));
                     }
                 }
@@ -104,7 +85,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         return mDatas.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder{
 
         ImageView image_app;
         TextView tv_appname;
@@ -121,17 +102,14 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             checkBox = (CheckBox)itemView.findViewById(R.id.checkbox);
         }
 
-
-
     }
 
-    private boolean belong(List<String> list,int pos){
+    private boolean belong(List<FileInfo> sendDatas,int pos){
         String str = mDatas.get(pos).getLocation();
-        for(String s : list){
-            if( s.equals(str) ){
-                return true;
-            }
-        }
+       for(int i = 0 ; i < sendDatas.size() ; i ++){
+           if(str.equals(sendDatas.get(i).getLocation()))
+               return true;
+       }
         return false;
     }
 

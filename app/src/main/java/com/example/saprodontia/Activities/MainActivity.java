@@ -1,18 +1,24 @@
 package com.example.saprodontia.Activities;
 
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.example.saprodontia.R;
 import com.example.saprodontia.Service.ReceService;
 import com.example.saprodontia.Utils.ToastUtil;
+import com.example.saprodontia.View.MyProgressBar;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -196,6 +202,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu,menu);
@@ -208,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.bt_receive:{
 
                 startActivity(new Intent(MainActivity.this,DownActivity.class));
-//                startService(new Intent(MainActivity.this, ReceService.class));
+                startService(new Intent(MainActivity.this, ReceService.class));
                 // TODO: OPEN CONNECT WIFI  && START SERVICE
                 break;
             }

@@ -3,20 +3,17 @@ package com.example.saprodontia.Service;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.Context;
-import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.support.annotation.Nullable;
 import android.text.format.Formatter;
-import android.util.Log;
 
-import com.example.saprodontia.Models.AppInfo;
+import com.example.saprodontia.Models.FileInfo;
 import com.example.saprodontia.Utils.LogUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +27,7 @@ import java.util.List;
  */
 public class SendService extends IntentService {
 
-    private ArrayList<AppInfo> datas;
+    private ArrayList<FileInfo> datas;
     private int len = 0;
 
     public SendService() {
@@ -46,9 +43,8 @@ public class SendService extends IntentService {
             WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             for (int i = 0; i < datas.size(); i++) {
                 try {
-
                     Socket socket = new Socket(Formatter.formatIpAddress(wm.getDhcpInfo().serverAddress), 8888);
-                    new Thread(new SendTask(socket, new File(datas.get(i).getLocation()), datas.get(i).getName())).start();
+                    new Thread(new SendTask(socket, datas.get(i))).start();
                     Thread.sleep(1000);
                 } catch (IOException | InterruptedException e) {
                     e.printStackTrace();
@@ -71,12 +67,11 @@ public class SendService extends IntentService {
         private byte[] buffer;
 
 
-        public SendTask(Socket socket, File file, String n) {
+        public SendTask(Socket socket, FileInfo data) {
             buffer = new byte[1024];
-            this.file = file;
-            name = n.getBytes();
+            name = (data.getName() + data.getFormat()).getBytes();
+            file = new File(data.getLocation());
             this.socket = socket;
-            LogUtil.e(n);
         }
 
         @Override

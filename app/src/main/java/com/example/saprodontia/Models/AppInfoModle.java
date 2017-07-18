@@ -1,11 +1,11 @@
 package com.example.saprodontia.Models;
 
-import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 
 import com.example.saprodontia.Application.App;
+import com.example.saprodontia.Utils.LogUtil;
 import com.example.saprodontia.Utils.MathUtil;
 
 import java.io.File;
@@ -21,7 +21,7 @@ public class AppInfoModle {
 
     private  PackageManager pm = App.getContext().getPackageManager();
     private  List<ApplicationInfo> infos;
-    private  List<AppInfo> initInfos = new ArrayList<>();
+    private  List<FileInfo> initInfos = new ArrayList<>();
     private  OnDataChangeListener mOnDataChangeListener;
 
 
@@ -36,7 +36,7 @@ public class AppInfoModle {
         return MathUtil.keepTwoDecimals(file.length()/1024.f);
     }
 
-    public  List<AppInfo> initSimAppInfos (){
+    public  List<FileInfo> initSimAppInfos (){
         new LoadTask().execute();
         return initInfos;
     }
@@ -69,16 +69,29 @@ public class AppInfoModle {
 
             infos = getApplicationInfos();
             int t = 0 ;
+            float size = 0;
+            String sourceDir;
             for(ApplicationInfo i : infos){
-                AppInfo ai = new AppInfo();
+
+                FileInfo ai = new FileInfo();
+                sourceDir = i.sourceDir;
+
                 ai.setIcon(i.loadIcon(pm));
+                ai.setLocation(sourceDir);
+                ai.setFormat(i.sourceDir.substring(sourceDir.lastIndexOf('.'),sourceDir.length()));
+
                 ai.setName(i.loadLabel(pm).toString());
-                ai.setSize(getFileSize(i.sourceDir));
-                ai.setLocation(i.sourceDir);
+                if( (size = getFileSize(i.sourceDir)) >= 1024){
+                    ai.setSize(String.valueOf(MathUtil.keepTwoDecimals(size/1024.0f)) + " MB");
+                }else{
+                    ai.setSize(String.valueOf((size)) + " KB");
+                }
+
                 initInfos.add(ai);
-                ++t;
-                if(t % 10 == 0)
+
+                if(t % 10 == 0  || t < 10)
                 publishProgress();
+                t++;
             }
             return null;
         }

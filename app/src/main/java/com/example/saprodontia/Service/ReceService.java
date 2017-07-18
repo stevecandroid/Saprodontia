@@ -70,15 +70,20 @@ public class ReceService extends IntentService {
                 is = socket.getInputStream();
                 is.read(name);
                 String str = new String(name).trim();
-                LogUtil.e(str);
-                File file = new File(Environment.getExternalStorageDirectory().getPath() + "/" + str + ".apk");
+
+                File file = new File(Environment.getExternalStorageDirectory().getPath() +"/" + str );
                 if (!file.exists()) {
                     file.createNewFile();
+
+                    fos = new FileOutputStream(file);
+                    while ((len = is.read(data)) != -1) {
+                        fos.write(data, 0, len);
+                    }
                 }
-                fos = new FileOutputStream(file);
-                while ((len = is.read(data)) != -1) {
-                    fos.write(data, 0, len);
-                }
+                fos.close();
+                is.close();
+                socket.close();
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

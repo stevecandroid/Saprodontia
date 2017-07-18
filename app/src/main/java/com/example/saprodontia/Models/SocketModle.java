@@ -28,7 +28,7 @@ public class SocketModle {
         wm = (WifiManager) App.getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
     }
 
-    public  void shareFile(ArrayList<BaseInfo> datas){
+    public  void shareFile(ArrayList<FileInfo> datas){
 
         Intent intent = new Intent(App.getContext(),SendService.class);
         intent.putParcelableArrayListExtra("datas",datas);

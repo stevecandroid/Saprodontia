@@ -9,30 +9,38 @@ import android.os.Parcelable;
  */
 
 
-public class AppInfo extends BaseInfo implements Parcelable {
+public class FileInfo implements Parcelable {
 
 
-    private transient Drawable icon;
-    private transient float size;
+    private  transient  Drawable icon;
+    private String name;
+    private String location;
+    private String format;
+    private String size;
 
 
-    protected AppInfo(Parcel in) {
+
+
+    public FileInfo(){
+    }
+
+
+    protected FileInfo(Parcel in) {
         name = in.readString();
         location = in.readString();
+        format = in.readString();
+        size = in.readString();
     }
 
-    public AppInfo(){
-    }
-
-    public static final Creator<AppInfo> CREATOR = new Creator<AppInfo>() {
+    public static final Creator<FileInfo> CREATOR = new Creator<FileInfo>() {
         @Override
-        public AppInfo createFromParcel(Parcel in) {
-            return new AppInfo(in);
+        public FileInfo createFromParcel(Parcel in) {
+            return new FileInfo(in);
         }
 
         @Override
-        public AppInfo[] newArray(int size) {
-            return new AppInfo[size];
+        public FileInfo[] newArray(int size) {
+            return new FileInfo[size];
         }
     };
 
@@ -60,22 +68,33 @@ public class AppInfo extends BaseInfo implements Parcelable {
         this.name = name;
     }
 
-    public float getSize() {
+    public String getSize() {
         return size;
     }
 
-    public void setSize(float size) {
+    public void setSize(String size) {
         this.size = size;
     }
+
 
     @Override
     public int describeContents() {
         return 0;
     }
 
+    public String getFormat() {
+        return format;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeString(location);
+        dest.writeString(format);
+        dest.writeString(size);
     }
 }
