@@ -6,6 +6,7 @@ import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.support.annotation.Nullable;
 import android.text.format.Formatter;
+import android.util.Log;
 
 import com.example.saprodontia.Models.FileInfo;
 import com.example.saprodontia.Utils.LogUtil;
@@ -13,6 +14,7 @@ import com.example.saprodontia.Utils.LogUtil;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -40,16 +42,15 @@ public class SendService extends IntentService {
 
         datas = intent.getParcelableArrayListExtra("datas");
 
-            WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-            for (int i = 0; i < datas.size(); i++) {
-                try {
-                    Socket socket = new Socket(Formatter.formatIpAddress(wm.getDhcpInfo().serverAddress), 8888);
-                    new Thread(new SendTask(socket, datas.get(i))).start();
-                    Thread.sleep(1000);
-                } catch (IOException | InterruptedException e) {
-                    e.printStackTrace();
-                }
+        WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        for (int i = 0; i < datas.size(); i++) {
+            try {
+                Socket socket = new Socket(Formatter.formatIpAddress(wm.getDhcpInfo().serverAddress), 8888);
+                new Thread(new SendTask(socket, datas.get(i))).start();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+        }
     }
 
     @Override
@@ -57,19 +58,22 @@ public class SendService extends IntentService {
         super.onDestroy();
     }
 
-    class SendTask implements Runnable {
+    private class SendTask implements Runnable {
 
         private byte[] msg;
         private File file;
         private Socket socket;
         private FileInputStream fis;
+        private InputStream is;
         private OutputStream os;
         private byte[] buffer;
+        private byte[] feedBack;
 
 
-        public SendTask(Socket socket, FileInfo data) {
+        private SendTask(Socket socket, FileInfo data) {
             buffer = new byte[1024];
-            msg = (data.getName()+"="+data.getInitSize()).getBytes();
+            feedBack = new byte[1024];
+            msg = (data.getName() + "=" + data.getInitSize()).getBytes();
             file = new File(data.getLocation());
             this.socket = socket;
 
@@ -79,18 +83,23 @@ public class SendService extends IntentService {
         public void run() {
             try {
                 os = socket.getOutputStream();
+                is = socket.getInputStream();
                 fis = new FileInputStream(file);
                 os.write(msg);
                 os.flush();
-                Thread.sleep(1000);
-                while ((len = fis.read(buffer)) != -1) {
-                    os.write(buffer, 0, len);
+
+                is.read(feedBack);
+
+                if(new String(feedBack).trim().equals(new String(msg))) {
+                    while ((len = fis.read(buffer)) != -1) {
+                        os.write(buffer, 0, len);
+                    }
                 }
                 os.flush();
                 os.close();
                 fis.close();
                 socket.close();
-            } catch (IOException | InterruptedException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }

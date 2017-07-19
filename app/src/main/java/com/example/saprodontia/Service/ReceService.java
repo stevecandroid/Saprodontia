@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -61,6 +62,7 @@ public class ReceService extends IntentService {
         private byte[] data = new byte[1024];
         private byte[] msg = new byte[1024];
         private FileOutputStream fos;
+        private OutputStream os;
         private InputStream is;
         private boolean done = false;
 
@@ -74,11 +76,12 @@ public class ReceService extends IntentService {
             try {
 
                 is = socket.getInputStream();
-
+                os = socket.getOutputStream();
                 is.read(msg);
                 String str = new String(msg).trim();
                 final String[] nameAndSize = str.split("=");
 
+                os.write(str.getBytes()); //feedBack
 
                 final Intent progress = new Intent("DOWNLOAD_TASK_PROGRESS");
 
@@ -87,11 +90,10 @@ public class ReceService extends IntentService {
                     public void run() {
                         try {
                             while(!done) {
-                                    Thread.sleep(800);
                                     progress.putExtra("taskName", nameAndSize[0]);
                                     progress.putExtra("progress", totallen);
                                     sendBroadcast(progress);
-
+                                    Thread.sleep(3000);
                             }
                         } catch (InterruptedException e) {
                             e.printStackTrace();

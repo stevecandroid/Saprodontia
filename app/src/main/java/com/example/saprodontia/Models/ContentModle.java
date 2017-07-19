@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.provider.MediaStore;
 
+import com.example.saprodontia.R;
 import com.example.saprodontia.Utils.LogUtil;
 
 import java.util.ArrayList;
@@ -80,10 +81,9 @@ public class ContentModle {
         String selection = MediaStore.Files.FileColumns.MIME_TYPE + "= ? "
                 + " or " + MediaStore.Files.FileColumns.MIME_TYPE + " = ? "
                 + " or " + MediaStore.Files.FileColumns.MIME_TYPE + " = ? "
-                + " or " + MediaStore.Files.FileColumns.MIME_TYPE + " = ? "
                 + " or " + MediaStore.Files.FileColumns.MIME_TYPE + " = ? ";
 
-        String[] selectionArgs = new String[]{"text/plain", "application/msword", "application/pdf", "application/vnd.ms-powerpoint", "application/vnd.ms-excel"};
+        String[] selectionArgs = new String[]{"application/msword", "application/pdf", "application/vnd.ms-powerpoint", "application/vnd.ms-excel"};
 
         Cursor cursor = mContentResolver.query(MediaStore.Files.getContentUri("external"), projection, selection, selectionArgs, MediaStore.Files.FileColumns.DATE_MODIFIED + " desc");
 
@@ -92,10 +92,10 @@ public class ContentModle {
         do {
             FileInfo info = new FileInfo();
             String location = cursor.getString(cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA));
-
+            String format = location.substring(location.indexOf('.'), location.length());
                 info.setInitSize(Long.parseLong(cursor.getString(cursor.getColumnIndex(MediaStore.Files.FileColumns.SIZE))));
                 info.setLocation(location);
-                info.setName(cursor.getString(cursor.getColumnIndex(MediaStore.Files.FileColumns.TITLE)) + location.substring(location.indexOf('.'), location.length()));
+                info.setName(cursor.getString(cursor.getColumnIndex(MediaStore.Files.FileColumns.TITLE)) + format);
                 fileInfos.add(info);
 
         } while (cursor.moveToNext());
