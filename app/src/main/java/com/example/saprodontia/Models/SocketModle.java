@@ -6,6 +6,7 @@ import android.net.wifi.WifiManager;
 
 import com.example.saprodontia.Application.App;
 import com.example.saprodontia.Service.SendService;
+import com.example.saprodontia.Utils.LogUtil;
 
 import java.io.FileInputStream;
 import java.io.OutputStream;
@@ -33,7 +34,6 @@ public class SocketModle {
         Intent intent = new Intent(App.getContext(),SendService.class);
         intent.putParcelableArrayListExtra("datas",datas);
         App.getContext().startService(intent);
-
     }
 
 

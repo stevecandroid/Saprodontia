@@ -20,34 +20,27 @@
         android:orientation="horizontal">
 
         <RadioButton
-            android:id="@+id/radio_all"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:button="@null"
-            android:text="全部"
-            android:textAlignment="center"
-            android:textSize="18sp" />
-
-        <RadioButton
             android:id="@+id/radio_down"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/radio_button"
             android:button="@null"
             android:text="下载中"
             android:textAlignment="center"
             android:textSize="18sp" />
 
         <RadioButton
-            android:id="@+id/radio_done"
-            android:layout_width="wrap_content"
+            android:id="@+id/radio_all"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/radio_button"
             android:button="@null"
-            android:text="已完成"
+            android:text="全部"
             android:textAlignment="center"
             android:textSize="18sp" />
+
     </RadioGroup>
 
     <android.support.v4.view.ViewPager

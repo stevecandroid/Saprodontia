@@ -19,7 +19,7 @@ import com.example.saprodontia.R;
 public class MyProgressBar extends View {
 
     private int max = 1;
-    private  int progress = 1;
+    private  long progress = 1;
     private TypedArray typedArray ;
     private Paint mPaint;
     private boolean enable = false;
@@ -32,7 +32,7 @@ public class MyProgressBar extends View {
         super(context, attrs);
         mPaint = new Paint();
         typedArray = context.obtainStyledAttributes(attrs, R.styleable.MyProgressBar);
-        mPaint.setColor(typedArray.getColor(R.styleable.MyProgressBar_color, Color.argb(160 ,232, 232, 232)));
+        mPaint.setColor(typedArray.getColor(R.styleable.MyProgressBar_color, Color.argb(160 ,233, 182, 199)));
         mPaint.setStyle((Paint.Style.FILL));
         mPaint.setAntiAlias(true);
     }
@@ -61,11 +61,11 @@ public class MyProgressBar extends View {
         this.max = max;
     }
 
-    public int getProgress() {
+    public long getProgress() {
         return progress;
     }
 
-    public void setProgress(int progress) {
+    public void setProgress(long progress) {
         this.progress = progress;
         invalidate();
     }

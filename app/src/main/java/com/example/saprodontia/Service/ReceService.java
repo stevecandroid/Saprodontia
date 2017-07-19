@@ -3,6 +3,9 @@ package com.example.saprodontia.Service;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.EmbossMaskFilter;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 
@@ -53,11 +56,13 @@ public class ReceService extends IntentService {
     class ReceTask implements Runnable{
 
         private int len = 0;
+        private long totallen = 0 ;
         private Socket socket;
         private byte[] data = new byte[1024];
-        private byte[] name = new byte[1024];
+        private byte[] msg = new byte[1024];
         private FileOutputStream fos;
         private InputStream is;
+        private boolean done = false;
 
 
         public ReceTask(Socket socket) {
@@ -67,22 +72,74 @@ public class ReceService extends IntentService {
         @Override
         public void run() {
             try {
-                is = socket.getInputStream();
-                is.read(name);
-                String str = new String(name).trim();
 
-                File file = new File(Environment.getExternalStorageDirectory().getPath() +"/" + str );
+                is = socket.getInputStream();
+
+                is.read(msg);
+                String str = new String(msg).trim();
+                final String[] nameAndSize = str.split("=");
+
+
+                final Intent progress = new Intent("DOWNLOAD_TASK_PROGRESS");
+
+                Thread p = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            while(!done) {
+                                    Thread.sleep(800);
+                                    progress.putExtra("taskName", nameAndSize[0]);
+                                    progress.putExtra("progress", totallen);
+                                    sendBroadcast(progress);
+
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+
+
+                File folder = new File(Environment.getExternalStorageDirectory().getPath()+"/SaprodontiaDownload");
+
+                if(!folder.exists()){
+                    folder.mkdir();
+                }
+
+                File file = new File(Environment.getExternalStorageDirectory().getPath() +"/SaprodontiaDownload/" + nameAndSize[0] );
+
+
                 if (!file.exists()) {
                     file.createNewFile();
 
+                    Intent intent = new Intent();
+                    intent.setAction("DOWNLOAD_TASK_INIT_DATA");
+                    intent.putExtra("name",nameAndSize[0]);
+                    intent.putExtra("max",nameAndSize[1]);
+                    sendBroadcast(intent);
+                    p.start();
                     fos = new FileOutputStream(file);
                     while ((len = is.read(data)) != -1) {
                         fos.write(data, 0, len);
+                        totallen += len;
                     }
                 }
+
+                done = true;
+
                 fos.close();
                 is.close();
                 socket.close();
+
+                progress.putExtra("taskName",nameAndSize[0]);
+                progress.putExtra("progress",totallen);
+                sendBroadcast(progress);
+
+                progress.setAction("DOWNLOAD_TASK_DONE");
+                sendBroadcast(progress);
+
+
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -99,4 +156,6 @@ public class ReceService extends IntentService {
         }
         super.onDestroy();
     }
+
+
 }

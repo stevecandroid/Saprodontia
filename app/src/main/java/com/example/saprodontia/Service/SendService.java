@@ -59,7 +59,7 @@ public class SendService extends IntentService {
 
     class SendTask implements Runnable {
 
-        private byte[] name;
+        private byte[] msg;
         private File file;
         private Socket socket;
         private FileInputStream fis;
@@ -69,9 +69,10 @@ public class SendService extends IntentService {
 
         public SendTask(Socket socket, FileInfo data) {
             buffer = new byte[1024];
-            name = (data.getName() + data.getFormat()).getBytes();
+            msg = (data.getName()+"="+data.getInitSize()).getBytes();
             file = new File(data.getLocation());
             this.socket = socket;
+
         }
 
         @Override
@@ -79,13 +80,16 @@ public class SendService extends IntentService {
             try {
                 os = socket.getOutputStream();
                 fis = new FileInputStream(file);
-                os.write(name);
+                os.write(msg);
                 os.flush();
                 Thread.sleep(1000);
                 while ((len = fis.read(buffer)) != -1) {
                     os.write(buffer, 0, len);
                 }
                 os.flush();
+                os.close();
+                fis.close();
+                socket.close();
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }

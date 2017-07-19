@@ -7,8 +7,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.example.saprodontia.Adapter.Adapter;
+import com.example.saprodontia.Models.ContentModle;
 import com.example.saprodontia.Models.FileInfo;
 import com.example.saprodontia.Models.AppInfoModle;
 import com.example.saprodontia.R;
@@ -19,8 +21,15 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
 
     private OnSendListener mOnSendListener;
     private AppInfoModle mAppInfoModle;
-    private Adapter adapter;
-//    private WifiReceiver mWifiReceiver;
+    private ContentModle mContentModle;
+
+    private Adapter appAdapter;
+    private Adapter docuAdapter;
+    private Adapter videoAdapter;
+    private Adapter anotherAdapter;
+
+
+    private RecyclerView recyclerView;
     private List<FileInfo> infos;
 
     @Override
@@ -28,12 +37,15 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send);
 
+        mContentModle = new ContentModle(this);
         mAppInfoModle = new AppInfoModle();
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycle_all);
+        recyclerView = (RecyclerView) findViewById(R.id.recycle_all);
+
         infos = mAppInfoModle.initSimAppInfos();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new Adapter(this, infos );
-        recyclerView.setAdapter(adapter);
+        appAdapter = new Adapter(this, infos );
+        recyclerView.setAdapter(appAdapter);
+
 
         RadioButton radio_photo = (RadioButton) findViewById(R.id.radio_photo);
         RadioButton radio_app = (RadioButton) findViewById(R.id.radio_app);
@@ -51,13 +63,11 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         mAppInfoModle.setmOnDataChangeListener(new AppInfoModle.OnDataChangeListener() {
             @Override
             public void onDataChange() {
-                adapter.notifyDataSetChanged();
+                appAdapter.notifyDataSetChanged();
             }
         });
 
         radio_app.setChecked(true);
-
-
 
 
 //        AppInfoModle modleAt = new AppInfoModle();
@@ -162,6 +172,20 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.bt_ensure:{
                 mOnSendListener.send();
                 break;
+            }
+            case R.id.radio_photo :{
+
+//                recyclerView.setAdapter();
+                break;
+            }
+            case R.id.radio_app :{
+                recyclerView.setAdapter(appAdapter);
+                break;
+            }
+            case R.id.radio_docu:{
+                if(docuAdapter == null)
+                docuAdapter = new Adapter(this,mContentModle.getFileInfos());
+                recyclerView.setAdapter(docuAdapter);
             }
         }
     }

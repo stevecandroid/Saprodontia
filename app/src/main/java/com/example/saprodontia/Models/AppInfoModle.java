@@ -31,9 +31,9 @@ public class AppInfoModle {
         return infos;
     }
 
-    private  float getFileSize(String path){
+    private  long getFileSize(String path){
         File file = new File(path);
-        return MathUtil.keepTwoDecimals(file.length()/1024.f);
+        return file.length();
     }
 
     public  List<FileInfo> initSimAppInfos (){
@@ -69,7 +69,7 @@ public class AppInfoModle {
 
             infos = getApplicationInfos();
             int t = 0 ;
-            float size = 0;
+            long size = 0;
             String sourceDir;
             for(ApplicationInfo i : infos){
 
@@ -78,14 +78,9 @@ public class AppInfoModle {
 
                 ai.setIcon(i.loadIcon(pm));
                 ai.setLocation(sourceDir);
-                ai.setFormat(i.sourceDir.substring(sourceDir.lastIndexOf('.'),sourceDir.length()));
-
-                ai.setName(i.loadLabel(pm).toString());
-                if( (size = getFileSize(i.sourceDir)) >= 1024){
-                    ai.setSize(String.valueOf(MathUtil.keepTwoDecimals(size/1024.0f)) + " MB");
-                }else{
-                    ai.setSize(String.valueOf((size)) + " KB");
-                }
+                ai.setName(i.loadLabel(pm).toString()+i.sourceDir.substring(sourceDir.lastIndexOf('.'),sourceDir.length()));
+                ai.setSize(MathUtil.bytoKbOrMb(size=getFileSize(sourceDir)));
+                ai.setInitSize(size);
 
                 initInfos.add(ai);
 

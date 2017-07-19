@@ -12,24 +12,37 @@ import android.os.Parcelable;
 public class FileInfo implements Parcelable {
 
 
-    private  transient  Drawable icon;
+    private transient Drawable icon;
     private String name;
     private String location;
-    private String format;
     private String size;
+    private long initSize;
+    private long progress;
 
+    public long getProgress() {
+        return progress;
+    }
 
-
+    public void setProgress(long progress) {
+        this.progress = progress;
+    }
 
     public FileInfo(){
     }
 
+    public long getInitSize() {
+        return initSize;
+    }
+
+    public void setInitSize(long initSize) {
+        this.initSize = initSize;
+    }
 
     protected FileInfo(Parcel in) {
         name = in.readString();
         location = in.readString();
-        format = in.readString();
         size = in.readString();
+        initSize = in.readLong();
     }
 
     public static final Creator<FileInfo> CREATOR = new Creator<FileInfo>() {
@@ -82,19 +95,12 @@ public class FileInfo implements Parcelable {
         return 0;
     }
 
-    public String getFormat() {
-        return format;
-    }
-
-    public void setFormat(String format) {
-        this.format = format;
-    }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeString(location);
-        dest.writeString(format);
         dest.writeString(size);
+        dest.writeLong(initSize);
     }
 }
