@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.content.Context;
 import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.text.format.Formatter;
 import android.util.Log;
@@ -57,6 +58,7 @@ public class SendService extends IntentService {
     public void onDestroy() {
         super.onDestroy();
     }
+
 
     private class SendTask implements Runnable {
 

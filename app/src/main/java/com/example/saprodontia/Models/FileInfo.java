@@ -5,6 +5,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 /**
  * Created by 铖哥 on 2017/7/16.
  */
@@ -31,6 +33,9 @@ public class FileInfo implements Parcelable {
     private String size;
     private long initSize;
     private long progress;
+    private int type;
+    private List<FileInfo> childs;
+    private boolean isExpand;
 
     public FileInfo() {
     }
@@ -40,6 +45,30 @@ public class FileInfo implements Parcelable {
         location = in.readString();
         size = in.readString();
         initSize = in.readLong();
+    }
+
+    public boolean isExpand() {
+        return isExpand;
+    }
+
+    public void setExpand(boolean expand) {
+        isExpand = expand;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public List<FileInfo> getChilds() {
+        return childs;
+    }
+
+    public void setChilds(List<FileInfo> childs) {
+        this.childs = childs;
     }
 
     public Bitmap getBitmap() {

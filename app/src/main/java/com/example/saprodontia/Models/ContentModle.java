@@ -15,6 +15,7 @@ import com.example.saprodontia.Utils.LogUtil;
 import com.example.saprodontia.Utils.MathUtil;
 import com.example.saprodontia.Utils.ThumbUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class ContentModle {
     private ContentResolver mContentResolver;
     private List<FileInfo> fileInfos;
     private List<FileInfo> videoInfos;
-    private List<FileInfo> imageInfos;
+    private List<FileInfo> imageFolderInfos;
     private List<FileInfo> musicInfos;
 
     private App app;
@@ -60,31 +61,61 @@ public class ContentModle {
         mContentResolver = mContext.getContentResolver();
         fileInfos = app.getFileInfos();
         videoInfos = app.getVideoInfos();
-        imageInfos = app.getImageInfos();
+        imageFolderInfos = app.getImageInfos();
         musicInfos = app.getMusicInfos();
 
     }
 
-    public List<FileInfo> getImagesFile() {
+    public List<FileInfo> getImagesFolder() {
 
+        boolean first = true;
+        String temp = "";
+        FileInfo folderInfo;
+        List<FileInfo> imageInfos = new ArrayList<>();
 
         Cursor cursor = mContentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 new String[]{MediaStore.Images.ImageColumns.DATA, MediaStore.Images.ImageColumns.DISPLAY_NAME,
                         MediaStore.Images.ImageColumns.SIZE, MediaStore.Images.ImageColumns.TITLE, MediaStore.Images.ImageColumns._ID},
-                null, null, MediaStore.Images.ImageColumns.DATE_MODIFIED + "  desc");
+                null, null, MediaStore.Images.ImageColumns.DATA + "  desc");
 
         if (cursor != null && cursor.moveToFirst())
             do {
-                FileInfo info = new FileInfo();
-                info.setLocation(cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)));
-                info.setName(cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.DISPLAY_NAME)));
-                info.setInitSize(Long.parseLong(cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.SIZE))));
-                info.setId(cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns._ID)));
-                imageInfos.add(info);
+
+                FileInfo childInfo = new FileInfo();
+                String location =  cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA));
+
+                String p = new File(location).getParent();
+                String name = p.substring(p.lastIndexOf('/')+1,p.length());
+
+                if(first) {
+                    temp = name;
+                    first = false;
+                }
+
+                childInfo.setLocation(location);
+                childInfo.setName(cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.DISPLAY_NAME)));
+                childInfo.setInitSize(Long.parseLong(cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.SIZE))));
+                childInfo.setId(cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns._ID)));
+                childInfo.setType(2);
+
+                if(!temp.equals(name)){
+                    folderInfo = new FileInfo();
+                    folderInfo.setName(temp);
+                    folderInfo.setLocation(p);
+                    folderInfo.setChilds(imageInfos);
+                    folderInfo.setType(1);
+                    imageFolderInfos.add(folderInfo);
+                    temp = name;
+                    imageInfos = new ArrayList<>();
+                }
+
+                imageInfos.add(childInfo);
+
             } while (cursor.moveToNext());
 
         cursor.close();
-        return imageInfos;
+
+        return imageFolderInfos;
 
     }
 

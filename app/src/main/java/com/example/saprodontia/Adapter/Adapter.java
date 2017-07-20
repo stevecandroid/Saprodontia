@@ -28,25 +28,16 @@ import java.util.List;
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     private List<FileInfo> mDatas;
-    private SocketModle socketModle;
+
     private ArrayList<FileInfo> sendDatas;
     private App app ;
+    private onSenDatasChangedListener mOnSenDatasChangedListener;
 
 
     public Adapter(Context context, List<FileInfo> mDatas) {
         this.mDatas = mDatas;
-        socketModle = new SocketModle(context);
-        sendDatas = new ArrayList<>();
         app = (App) context.getApplicationContext();
-        sendDatas = app.getFileInfos();
-
-        ((SendActivity) context).setOnSendListener(new SendActivity.OnSendListener() {
-            @Override
-            public void send() {
-                socketModle.shareFile(sendDatas);
-                LogUtil.e(sendDatas.size());
-            }
-        });
+        sendDatas = app.getSenDatas();
 
     }
 
@@ -81,9 +72,17 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
                 if (!holder.checkBox.isChecked()) {
                     holder.checkBox.setChecked(true);
                     sendDatas.add(mDatas.get(position));
+
+                    if(mOnSenDatasChangedListener!=null)
+                    mOnSenDatasChangedListener.onDataChanged(sendDatas);
+
                 } else {
+
                     holder.checkBox.setChecked(false);
                     sendDatas.remove(mDatas.get(position));
+
+                    if(mOnSenDatasChangedListener!=null)
+                        mOnSenDatasChangedListener.onDataChanged(sendDatas);
                 }
             }
         });
@@ -122,5 +121,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         return false;
     }
 
+    public interface onSenDatasChangedListener{
+        void onDataChanged(List<FileInfo> fileInfos);
+    }
 
+    public void setmOnSenDatasChangedListener(onSenDatasChangedListener mOnSenDatasChangedListener) {
+        this.mOnSenDatasChangedListener = mOnSenDatasChangedListener;
+    }
 }

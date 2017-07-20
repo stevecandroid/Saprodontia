@@ -20,7 +20,7 @@ public class App extends Application{
 
     private List<FileInfo> fileInfos;
     private List<FileInfo> videoInfos;
-    private List<FileInfo> imageInfos;
+    private List<FileInfo> imageFolderInfos;
     private List<FileInfo> musicInfos;
     private List<FileInfo> appInfos;
 
@@ -39,7 +39,7 @@ public class App extends Application{
     }
 
     public List<FileInfo> getImageInfos() {
-        return imageInfos;
+        return imageFolderInfos;
     }
 
     public List<FileInfo> getMusicInfos() {
@@ -50,8 +50,8 @@ public class App extends Application{
         return appInfos;
     }
 
-    public ArrayList<FileInfo> getFileInfos() {
-        return senDatas;
+    public List<FileInfo> getFileInfos() {
+        return fileInfos;
     }
 
     public boolean isExecm() {
@@ -101,7 +101,7 @@ public class App extends Application{
         fileInfos = new ArrayList<>();
         musicInfos = new ArrayList<>();
         videoInfos = new ArrayList<>();
-        imageInfos = new ArrayList<>();
+        imageFolderInfos = new ArrayList<>();
         appInfos = new ArrayList<>();
         super.onCreate();
     }

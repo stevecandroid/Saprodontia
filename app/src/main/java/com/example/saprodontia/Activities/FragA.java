@@ -17,6 +17,7 @@ import com.example.saprodontia.Adapter.ItemAdapter;
 import com.example.saprodontia.Models.FileInfo;
 import com.example.saprodontia.R;
 import com.example.saprodontia.Utils.LogUtil;
+import com.example.saprodontia.View.RecycleDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,7 @@ public class FragA extends BaseFragment {
         recycle.setLayoutManager(new LinearLayoutManager(getContext()));
         mItemAdapter = new ItemAdapter(this,infos);
         recycle.setAdapter(mItemAdapter);
+        recycle.addItemDecoration(new RecycleDecoration());
 
         return view;
     }

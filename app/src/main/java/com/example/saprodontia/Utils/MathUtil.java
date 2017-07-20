@@ -5,17 +5,20 @@ package com.example.saprodontia.Utils;
  */
 
 public class MathUtil {
-    public static float keepTwoDecimals(float n){
-        String str = String.valueOf(n);
-        return Float.parseFloat(str.substring(0,str.lastIndexOf('.')));
+
+    public final static long Mb = 1024 * 1024;
+
+    public static String keepTwoDecimals(String n){
+
+            return n.substring(0,n.lastIndexOf('.')+2);
     }
 
     public static String bytoKbOrMb(long size){
 
-        if( size >= 1024 * 1024 ){
-           return (String.valueOf(MathUtil.keepTwoDecimals(size/1024.0f/1024.0f)) + " MB");
+        if( size >= Mb ){
+           return keepTwoDecimals(String.valueOf(size/1024.0f/1024.0f))+" MB";
         }else{
-           return  (String.valueOf(MathUtil.keepTwoDecimals(size/1024.0f)) + " KB");
+           return  keepTwoDecimals(String.valueOf(size/1024.0f))+" KB";
         }
 
 

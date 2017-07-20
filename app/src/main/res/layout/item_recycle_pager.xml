@@ -5,13 +5,6 @@
     android:layout_height="62dp"
     android:orientation="vertical">
 
-    <View
-        android:id="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-
-        android:background="@color/colorGray" />
-
     <ImageView
         android:id="@+id/image_app"
         android:layout_width="56dp"
@@ -47,13 +40,5 @@
         android:id="@+id/progress_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-    <View
-        android:id="@+id/view2"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_alignBottom="@+id/tv_appname"
-        android:layout_alignParentBottom="true"
-        android:background="@color/colorGray" />
 
 </RelativeLayout>
