@@ -5,12 +5,19 @@ import android.content.Intent;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.text.format.Formatter;
 import android.util.Log;
+import android.view.LayoutInflater;
 
+import com.example.saprodontia.Application.App;
 import com.example.saprodontia.Models.FileInfo;
+import com.example.saprodontia.R;
 import com.example.saprodontia.Utils.LogUtil;
+import com.example.saprodontia.Utils.ToastUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,9 +39,11 @@ public class SendService extends IntentService {
 
     private ArrayList<FileInfo> datas;
     private int len = 0;
+    private MHandler mHandler;
 
     public SendService() {
         super("SendService");
+        mHandler = new MHandler();
     }
 
 
@@ -70,12 +79,14 @@ public class SendService extends IntentService {
         private OutputStream os;
         private byte[] buffer;
         private byte[] feedBack;
+        private String taskName;
 
 
         private SendTask(Socket socket, FileInfo data) {
             buffer = new byte[1024];
             feedBack = new byte[1024];
-            msg = (data.getName() + "=" + data.getInitSize()).getBytes();
+            taskName = data.getName();
+            msg = (taskName + "=" + data.getInitSize()).getBytes();
             file = new File(data.getLocation());
             this.socket = socket;
 
@@ -95,7 +106,11 @@ public class SendService extends IntentService {
                     while ((len = fis.read(buffer)) != -1) {
                         os.write(buffer, 0, len);
                     }
+                    Message message = new Message();
+                    message.obj = taskName;
+                    mHandler.sendMessage(message);
                 }
+
                 os.flush();
                 os.close();
                 fis.close();
@@ -103,6 +118,13 @@ public class SendService extends IntentService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    class MHandler extends Handler{
+        @Override
+        public void handleMessage(Message msg) {
+            ToastUtil.showToast(msg.obj.toString()+"发送成功");
         }
     }
 }

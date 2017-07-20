@@ -18,7 +18,6 @@ import com.example.saprodontia.R;
 import com.example.saprodontia.Utils.LogUtil;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,13 +29,12 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private List<FileInfo> infos;
     private Context context;
     private List<FileInfo> sendDatas;
-    private App app;
     private OnSendDataChangeListener onSendDataChangeListener;
 
     public PhotoAdapter(List<FileInfo> parentInfos , Context context) {
         this.context = context;
         this.infos = parentInfos;
-        app = (App) context.getApplicationContext();
+        App app = (App) context.getApplicationContext();
         sendDatas = app.getSenDatas();
     }
 
@@ -67,13 +65,18 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 @Override
                 public void onClick(View v) {
                     if(!infos.get(position).isExpand()) {
-                        infos.addAll(position + 1, infos.get(position).getChilds());
+                        List<FileInfo> childs = infos.get(position).getChilds();
+                        infos.addAll(position + 1, childs);
                         infos.get(position).setExpand(true);
+                        notifyItemRangeInserted(position+1,infos.get(position).getChilds().size());
+
                     }else{
-                        infos.subList(position + 1 , position + 1+infos.get(position).getChilds().size()).clear();
+                        int count = infos.get(position).getChilds().size();
+                        infos.subList(position + 1 , position + 1+count).clear();
                         infos.get(position).setExpand(false);
+                        notifyItemRangeRemoved(position+1,count);
                     }
-                    notifyDataSetChanged();
+
 
 
                 }
@@ -114,29 +117,31 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return infos.size();
     }
 
-    class ViewHolderOne extends  RecyclerView.ViewHolder{
+    private class ViewHolderOne extends  RecyclerView.ViewHolder{
 
         TextView textView ;
         ImageView imageArrow;
 
-        public ViewHolderOne(View itemView) {
+        ViewHolderOne(View itemView) {
             super(itemView);
             textView = (TextView) itemView.findViewById(R.id.textView);
             imageArrow = (ImageView) itemView.findViewById(R.id.image_arrow);
         }
     }
 
-    class ViewHolderTwo extends RecyclerView.ViewHolder{
+    private class ViewHolderTwo extends RecyclerView.ViewHolder{
 
         ImageView imageView ;
         CheckBox checkPhoto;
 
-        public ViewHolderTwo(View itemView) {
+        ViewHolderTwo(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
             checkPhoto = (CheckBox) itemView.findViewById(R.id.check_photo);
         }
     }
+
+
 
     @Override
     public int getItemViewType(int position) {

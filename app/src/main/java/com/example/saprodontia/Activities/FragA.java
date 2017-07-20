@@ -11,12 +11,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 
 import com.example.saprodontia.Adapter.ItemAdapter;
 import com.example.saprodontia.Models.FileInfo;
 import com.example.saprodontia.R;
-import com.example.saprodontia.Utils.LogUtil;
 import com.example.saprodontia.View.RecycleDecoration;
 
 import java.util.ArrayList;
@@ -39,10 +37,12 @@ public class FragA extends BaseFragment {
         View view = inflater.inflate(R.layout.item_pager,container,false);
         infos = new ArrayList<>();
         RecyclerView recycle = (RecyclerView) view.findViewById(R.id.recycle_item);
+
         recycle.setLayoutManager(new LinearLayoutManager(getContext()));
         mItemAdapter = new ItemAdapter(this,infos);
         recycle.setAdapter(mItemAdapter);
         recycle.addItemDecoration(new RecycleDecoration());
+
 
         return view;
     }
