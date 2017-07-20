@@ -9,6 +9,7 @@ import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
 
+import com.example.saprodontia.Application.App;
 import com.example.saprodontia.R;
 import com.example.saprodontia.Utils.LogUtil;
 import com.example.saprodontia.Utils.MathUtil;
@@ -29,6 +30,8 @@ public class ContentModle {
     private List<FileInfo> videoInfos;
     private List<FileInfo> imageInfos;
     private List<FileInfo> musicInfos;
+
+    private App app;
 
     private OnVideoDataChangedListener mOnVideoDataChangedListener;
     private OnImageDataChangedListener mOnImageDataChangedListener;
@@ -53,11 +56,13 @@ public class ContentModle {
 
     public ContentModle(Context context) {
         mContext = context;
+        app = (App) context.getApplicationContext();
         mContentResolver = mContext.getContentResolver();
-        fileInfos = new ArrayList<>();
-        videoInfos = new ArrayList<>();
-        imageInfos = new ArrayList<>();
-        musicInfos = new ArrayList<>();
+        fileInfos = app.getFileInfos();
+        videoInfos = app.getVideoInfos();
+        imageInfos = app.getImageInfos();
+        musicInfos = app.getMusicInfos();
+
     }
 
     public List<FileInfo> getImagesFile() {
@@ -84,19 +89,24 @@ public class ContentModle {
     }
 
     public List<FileInfo> getVideosFile() {
-
+        if(!app.isExecp())
         new ViedoLoadTask().execute();
+        app.setExecp(true);
         return videoInfos;
 
     }
 
     public List<FileInfo> getFileInfos() {
+        if(!app.isExecd())
         new FileLoadTask().execute();
+        app.setExecd(true);
         return fileInfos;
     }
 
     public List<FileInfo> getMusicInfos(){
+        if(!app.isExecm())
         new MusicLoadtask().execute();
+        app.setExecm(true);
         return musicInfos;
     }
 

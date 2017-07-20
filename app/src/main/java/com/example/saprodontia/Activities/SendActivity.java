@@ -48,7 +48,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_send);
 
         mContentModle = new ContentModle(this);
-        mAppInfoModle = new AppInfoModle();
+        mAppInfoModle = new AppInfoModle(this);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         viewPager = (ViewPager) findViewById(R.id.viewPager);

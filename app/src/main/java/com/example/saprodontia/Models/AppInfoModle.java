@@ -1,5 +1,6 @@
 package com.example.saprodontia.Models;
 
+import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -21,9 +22,15 @@ public class AppInfoModle {
 
     private  PackageManager pm = App.getContext().getPackageManager();
     private  List<ApplicationInfo> infos;
-    private  List<FileInfo> initInfos = new ArrayList<>();
+    private  List<FileInfo> initInfos ;
     private  OnDataChangeListener mOnDataChangeListener;
+    private App app;
 
+    public AppInfoModle(Context context) {
+        app = (App)(context.getApplicationContext());
+        initInfos =app.getAppInfos();
+
+    }
 
     private  List<ApplicationInfo>  getApplicationInfos(){
         List<ApplicationInfo> infos  = pm.getInstalledApplications(0);
@@ -37,7 +44,9 @@ public class AppInfoModle {
     }
 
     public  List<FileInfo> initSimAppInfos (){
+        if(!app.isExeca())
         new LoadTask().execute();
+        app.setExeca(true);
         return initInfos;
     }
 
