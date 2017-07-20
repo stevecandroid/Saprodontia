@@ -50,7 +50,10 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         mContentModle = new ContentModle(this);
         mAppInfoModle = new AppInfoModle();
 
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
+        tabLayout.setupWithViewPager(viewPager);
+
         views = new ArrayList<>();
 
         initData();
@@ -108,6 +111,13 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         });
 
 //        radio_app.setChecked(true);
+
+
+
+        tabLayout.getTabAt(0).setText("应用");
+        tabLayout.getTabAt(1).setText("图片");
+        tabLayout.getTabAt(2).setText("文档");
+        tabLayout.getTabAt(3).setText("视频");
 
 
 
@@ -211,26 +221,6 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.bt_ensure: {
                 mOnSendListener.send();
                 break;
-            }
-            case R.id.radio_photo: {
-                break;
-            }
-            case R.id.radio_app: {
-
-                break;
-            }
-            case R.id.radio_docu: {
-
-                break;
-            }
-            case R.id.radio_video: {
-
-                break;
-            }
-            case R.id.radio_music: {
-
-                break;
-
             }
         }
     }
