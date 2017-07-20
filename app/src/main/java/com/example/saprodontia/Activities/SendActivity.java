@@ -220,6 +220,16 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        photoAdapter.setOnScrollToBottomListener(new PhotoAdapter.OnScrollToBottomListener() {
+            @Override
+            public void onBottom(int pos, int length) {
+                int vPos = ((GridLayoutManager)(recyphoto.getLayoutManager())).findLastVisibleItemPosition();
+               if(vPos == pos || pos == vPos-1){
+                   recyphoto.smoothScrollToPosition(pos+1);
+               }
+            }
+        });
+
 
 
         recyphoto.setAdapter(photoAdapter);

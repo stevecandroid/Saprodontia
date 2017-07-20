@@ -30,6 +30,8 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private Context context;
     private List<FileInfo> sendDatas;
     private OnSendDataChangeListener onSendDataChangeListener;
+    private OnScrollToBottomListener onScrollToBottomListener;
+
 
     public PhotoAdapter(List<FileInfo> parentInfos , Context context) {
         this.context = context;
@@ -52,6 +54,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
 
+
         if(infos.get(position).getType()==1){
             final ViewHolderOne holderOne = ((ViewHolderOne)holder);
 
@@ -65,10 +68,19 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 @Override
                 public void onClick(View v) {
                     if(!infos.get(position).isExpand()) {
+
+
+
                         List<FileInfo> childs = infos.get(position).getChilds();
                         infos.addAll(position + 1, childs);
                         infos.get(position).setExpand(true);
                         notifyItemRangeInserted(position+1,infos.get(position).getChilds().size());
+
+                            if(onScrollToBottomListener!=null)
+                                onScrollToBottomListener.onBottom(position,infos.size());
+
+
+
 
                     }else{
                         int count = infos.get(position).getChilds().size();
@@ -163,5 +175,13 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public void setOnSendDataChangeListener(OnSendDataChangeListener onSendDataChangeListener) {
         this.onSendDataChangeListener = onSendDataChangeListener;
+    }
+
+    public interface OnScrollToBottomListener{
+        void onBottom(int pos,int length);
+    }
+
+    public void setOnScrollToBottomListener(OnScrollToBottomListener onScrollToBottomListener) {
+        this.onScrollToBottomListener = onScrollToBottomListener;
     }
 }
