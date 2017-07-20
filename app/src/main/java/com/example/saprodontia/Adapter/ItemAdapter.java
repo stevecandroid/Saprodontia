@@ -45,8 +45,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.tv_appsize.setText(MathUtil.bytoKbOrMb(mDatas.get(position).getInitSize()));
         holder.tv_appname.setText(mDatas.get(position).getName());
-        holder.progress_bar.setMax(mDatas.get(position).getInitSize());
-        holder.progress_bar.setProgress(mDatas.get(position).getProgress());
+        holder.progress_bar.setMax((int) mDatas.get(position).getInitSize());
+        holder.progress_bar.setProgress((int) mDatas.get(position).getProgress());
     }
 
     @Override

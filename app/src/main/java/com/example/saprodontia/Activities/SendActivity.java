@@ -1,20 +1,30 @@
 package com.example.saprodontia.Activities;
 
+import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
+import android.provider.MediaStore;
+import android.support.design.widget.TabItem;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.saprodontia.Adapter.Adapter;
+import com.example.saprodontia.Adapter.SendPagerAdapter;
 import com.example.saprodontia.Models.ContentModle;
 import com.example.saprodontia.Models.FileInfo;
 import com.example.saprodontia.Models.AppInfoModle;
 import com.example.saprodontia.R;
+import com.example.saprodontia.Utils.ThumbUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SendActivity extends AppCompatActivity implements View.OnClickListener {
@@ -26,11 +36,11 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
     private Adapter appAdapter;
     private Adapter docuAdapter;
     private Adapter videoAdapter;
-    private Adapter anotherAdapter;
+    private Adapter musicAdapter;
 
+    private ViewPager viewPager;
+    List<View> views ;
 
-    private RecyclerView recyclerView;
-    private List<FileInfo> infos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,26 +49,28 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
 
         mContentModle = new ContentModle(this);
         mAppInfoModle = new AppInfoModle();
-        recyclerView = (RecyclerView) findViewById(R.id.recycle_all);
 
-        infos = mAppInfoModle.initSimAppInfos();
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        appAdapter = new Adapter(this, infos );
-        recyclerView.setAdapter(appAdapter);
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        views = new ArrayList<>();
 
+        initData();
 
-        RadioButton radio_photo = (RadioButton) findViewById(R.id.radio_photo);
-        RadioButton radio_app = (RadioButton) findViewById(R.id.radio_app);
-        RadioButton radio_viedo = (RadioButton) findViewById(R.id.radio_video);
-        RadioButton radio_docu = (RadioButton) findViewById(R.id.radio_docu);
-        RadioButton radio_another = (RadioButton) findViewById(R.id.radio_another);
-        Button bt_ensure = (Button)findViewById(R.id.bt_ensure);
+//
+//        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+//        TabItem radio_photo = (TabItem) tabLayout.findViewById(R.id.radio_photo);
+//        TabItem radio_app = (TabItem) tabLayout.findViewById(R.id.radio_app);
+//        TabItem radio_viedo = (TabItem) tabLayout.findViewById(R.id.radio_video);
+//        TabItem radio_docu = (TabItem) tabLayout.findViewById(R.id.radio_docu);
+//        TabItem radio_music = (TabItem) tabLayout.findViewById(R.id.radio_music);
+        Button bt_ensure = (Button) findViewById(R.id.bt_ensure);
+
         bt_ensure.setOnClickListener(this);
-        radio_another.setOnClickListener(this);
-        radio_docu.setOnClickListener(this);
-        radio_viedo.setOnClickListener(this);
-        radio_app.setOnClickListener(this);
-        radio_photo.setOnClickListener(this);
+
+//        radio_music.setOnClickListener(this);
+//        radio_docu.setOnClickListener(this);
+//        radio_viedo.setOnClickListener(this);
+//        radio_app.setOnClickListener(this);
+//        radio_photo.setOnClickListener(this);
 
         mAppInfoModle.setmOnDataChangeListener(new AppInfoModle.OnDataChangeListener() {
             @Override
@@ -67,7 +79,36 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        radio_app.setChecked(true);
+        mContentModle.setmOnVideoDataChangedListener(new ContentModle.OnVideoDataChangedListener() {
+            @Override
+            public void onDataChange() {
+                videoAdapter.notifyDataSetChanged();
+            }
+        });
+
+        mContentModle.setmOnFileDataChangedListener(new ContentModle.OnFileDataChangedListener() {
+            @Override
+            public void onDataChanged() {
+                docuAdapter.notifyDataSetChanged();
+            }
+        });
+
+        mContentModle.setmOnImageDataChangedListener(new ContentModle.OnImageDataChangedListener() {
+            @Override
+            public void onDataChanged() {
+                //// TODO: 2017/7/19  
+            }
+        });
+
+        mContentModle.setmOnMusicDataChangedListener(new ContentModle.OnMusicDataChangedListener() {
+            @Override
+            public void onDataChanged() {
+                musicAdapter.notifyDataSetChanged();
+            }
+        });
+
+//        radio_app.setChecked(true);
+
 
 
 //        AppInfoModle modleAt = new AppInfoModle();
@@ -84,7 +125,6 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
 //        final WifiP2pManager wm = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
 //        final WifiP2pManager.Channel channel=  wm.initialize(this,getMainLooper(),null);
 //        mWifiReceiver = new WifiReceiver(wm,channel,this);
-
 
 
 //        wm.discoverPeers(channel, new WifiP2pManager.ActionListener() {
@@ -140,7 +180,6 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
 //        }).start();
 
 
-
     }
 
     @Override
@@ -162,39 +201,67 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         super.onPause();
     }
 
-    public void setOnSendListener(OnSendListener listener){
+    public void setOnSendListener(OnSendListener listener) {
         mOnSendListener = listener;
     }
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()){
-            case R.id.bt_ensure:{
+        switch (v.getId()) {
+            case R.id.bt_ensure: {
                 mOnSendListener.send();
                 break;
             }
-            case R.id.radio_photo :{
+            case R.id.radio_photo: {
+                break;
+            }
+            case R.id.radio_app: {
 
-//                recyclerView.setAdapter();
                 break;
             }
-            case R.id.radio_app :{
-                recyclerView.setAdapter(appAdapter);
+            case R.id.radio_docu: {
+
                 break;
             }
-            case R.id.radio_docu:{
-                if(docuAdapter == null)
-                docuAdapter = new Adapter(this,mContentModle.getFileInfos());
-                recyclerView.setAdapter(docuAdapter);
+            case R.id.radio_video: {
+
+                break;
+            }
+            case R.id.radio_music: {
+
+                break;
+
             }
         }
     }
 
-    public interface OnSendListener{
+    public interface OnSendListener {
         void send();
     }
 
+    private void initData(){
 
+        List<Adapter> listAdapter = new ArrayList<>();
+        appAdapter = new Adapter( this,mAppInfoModle.initSimAppInfos());
+        videoAdapter = new Adapter(this, mContentModle.getVideosFile());
+        docuAdapter = new Adapter(this, mContentModle.getFileInfos());
+        musicAdapter = new Adapter(this,mContentModle.getMusicInfos());
+        listAdapter.add(appAdapter);
+        listAdapter.add(videoAdapter);
+        listAdapter.add(docuAdapter);
+        listAdapter.add(musicAdapter);
+
+        for(int i = 0 ; i < listAdapter.size() ; i++){
+            RecyclerView recyclerView = new RecyclerView(this);
+            recyclerView.setAdapter(listAdapter.get(i));
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            views.add(recyclerView);
+        }
+
+
+        SendPagerAdapter sendPagerAdapter = new SendPagerAdapter(views);
+        viewPager.setAdapter(sendPagerAdapter);
+    }
 
 
 //    class WifiReceiver extends BroadcastReceiver{

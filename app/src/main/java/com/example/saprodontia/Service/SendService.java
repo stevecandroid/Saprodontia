@@ -87,7 +87,6 @@ public class SendService extends IntentService {
                 fis = new FileInputStream(file);
                 os.write(msg);
                 os.flush();
-
                 is.read(feedBack);
 
                 if(new String(feedBack).trim().equals(new String(msg))) {

@@ -15,75 +15,48 @@
         android:layout_height="wrap_content" />
 
 
-    <RadioGroup
-        android:id="@+id/radioGroup"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:orientation="horizontal">
+        android:layout_height="37dp">
 
-        <RadioButton
+        <android.support.design.widget.TabItem
             android:id="@+id/radio_app"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/radio_button"
-            android:button="@null"
-            android:text="应用"
-            android:textAlignment="center" />
+            android:layout_height="wrap_content"
+            android:text="应用" />
 
-        <RadioButton
+        <android.support.design.widget.TabItem
             android:id="@+id/radio_photo"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/radio_button"
-            android:button="@null"
-            android:text="图片"
-            android:textAlignment="center" />
+            android:layout_height="wrap_content"
+            android:text="图片" />
 
-        <RadioButton
-            android:id="@+id/radio_video"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/radio_button"
-            android:button="@null"
-            android:text="视频"
-            android:textAlignment="center" />
-
-        <RadioButton
+        <android.support.design.widget.TabItem
             android:id="@+id/radio_docu"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/radio_button"
-            android:button="@null"
-            android:text="文档"
-            android:textAlignment="center" />
+            android:layout_height="wrap_content"
+            android:text="文档" />
 
-        <RadioButton
-            android:id="@+id/radio_another"
+        <android.support.design.widget.TabItem
+            android:id="@+id/radio_video"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/radio_button"
-            android:button="@null"
-            android:text="其他"
-            android:textAlignment="center" />
-    </RadioGroup>
+            android:layout_height="wrap_content"
+            android:text="视频" />
 
-    <com.example.saprodontia.View.MLine
+        <android.support.design.widget.TabItem
+            android:id="@+id/radio_music"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="音乐" />
+    </android.support.design.widget.TabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.99"
-        android:orientation="vertical">
+        android:layout_height="432dp">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycle_all"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </com.example.saprodontia.View.MLine>
+    </android.support.v4.view.ViewPager>
 
 
     <RelativeLayout
@@ -98,6 +71,7 @@
             android:layout_marginEnd="24dp"
             android:background="@color/colorGray"
             android:text="确定" />
+
     </RelativeLayout>
 
 </LinearLayout>

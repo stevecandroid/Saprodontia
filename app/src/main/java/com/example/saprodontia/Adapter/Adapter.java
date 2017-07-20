@@ -60,8 +60,13 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
         holder.tv_appname.setText(mDatas.get(position).getName());
-        holder.image_app.setImageDrawable(mDatas.get(position).getIcon());
         holder.tv_appsize.setText(mDatas.get(position).getSize());
+
+        if(mDatas.get(position).getBitmap()==null){
+            holder.image_app.setImageDrawable(mDatas.get(position).getIcon());
+        }else{
+            holder.image_app.setImageBitmap(mDatas.get(position).getBitmap());
+        }
 
 
         if (belong(sendDatas, position)) {

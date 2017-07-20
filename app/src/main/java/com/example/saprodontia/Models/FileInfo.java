@@ -1,5 +1,6 @@
 package com.example.saprodontia.Models;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -10,40 +11,6 @@ import android.os.Parcelable;
 
 
 public class FileInfo implements Parcelable {
-
-
-    private transient Drawable icon;
-    private String name;
-    private String location;
-    private String size;
-    private long initSize;
-    private long progress;
-
-    public long getProgress() {
-        return progress;
-    }
-
-    public void setProgress(long progress) {
-        this.progress = progress;
-    }
-
-    public FileInfo(){
-    }
-
-    public long getInitSize() {
-        return initSize;
-    }
-
-    public void setInitSize(long initSize) {
-        this.initSize = initSize;
-    }
-
-    protected FileInfo(Parcel in) {
-        name = in.readString();
-        location = in.readString();
-        size = in.readString();
-        initSize = in.readLong();
-    }
 
     public static final Creator<FileInfo> CREATOR = new Creator<FileInfo>() {
         @Override
@@ -56,6 +23,56 @@ public class FileInfo implements Parcelable {
             return new FileInfo[size];
         }
     };
+    private String id;
+    private transient Drawable icon;
+    private transient Bitmap bitmap;
+    private String name;
+    private String location;
+    private String size;
+    private long initSize;
+    private long progress;
+
+    public FileInfo() {
+    }
+
+    protected FileInfo(Parcel in) {
+        name = in.readString();
+        location = in.readString();
+        size = in.readString();
+        initSize = in.readLong();
+    }
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public long getProgress() {
+        return progress;
+    }
+
+    public void setProgress(long progress) {
+        this.progress = progress;
+    }
+
+    public long getInitSize() {
+        return initSize;
+    }
+
+    public void setInitSize(long initSize) {
+        this.initSize = initSize;
+    }
 
     public String getLocation() {
         return location;
