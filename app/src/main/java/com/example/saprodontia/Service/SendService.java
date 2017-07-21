@@ -40,6 +40,7 @@ public class SendService extends IntentService {
     private ArrayList<FileInfo> datas;
     private int len = 0;
     private MHandler mHandler;
+    private WifiManager wm;
 
     public SendService() {
         super("SendService");
@@ -52,7 +53,7 @@ public class SendService extends IntentService {
 
         datas = intent.getParcelableArrayListExtra("datas");
 
-        WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         for (int i = 0; i < datas.size(); i++) {
             try {
                 Socket socket = new Socket(Formatter.formatIpAddress(wm.getDhcpInfo().serverAddress), 8888);
@@ -101,6 +102,9 @@ public class SendService extends IntentService {
                 os.write(msg);
                 os.flush();
                 is.read(feedBack);
+
+
+
 
                 if(new String(feedBack).trim().equals(new String(msg))) {
                     while ((len = fis.read(buffer)) != -1) {

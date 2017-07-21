@@ -1,7 +1,10 @@
 package com.example.saprodontia.Adapter;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +34,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private List<FileInfo> sendDatas;
     private OnSendDataChangeListener onSendDataChangeListener;
     private OnScrollToBottomListener onScrollToBottomListener;
+    private AnimHandler handler;
 
 
     public PhotoAdapter(List<FileInfo> parentInfos , Context context) {
@@ -38,6 +42,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.infos = parentInfos;
         App app = (App) context.getApplicationContext();
         sendDatas = app.getSenDatas();
+        handler = new AnimHandler();
     }
 
     @Override
@@ -59,7 +64,10 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             final ViewHolderOne holderOne = ((ViewHolderOne)holder);
 
             if(infos.get(position).isExpand()){
-                holderOne.imageArrow.startAnimation(AnimationUtils.loadAnimation(context,R.anim.clockwise_rotate));
+                holderOne.imageArrow.setImageDrawable(context.getDrawable(R.drawable.arrowdown));
+            }else{
+                holderOne.imageArrow.setImageDrawable(context.getDrawable(R.drawable.arrow));
+
             }
 
             TextView tv =  holderOne.textView;
@@ -67,29 +75,33 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    final long start = System.currentTimeMillis();
+                    List<FileInfo> childs = infos.get(position).getChilds();
+                    int childSize = 0;
+
+                    if(childs!=null){
+                        childSize=childs.size();
+                    }
+
+                    LogUtil.e(position +"POS");
+
                     if(!infos.get(position).isExpand()) {
 
-
-
-                        List<FileInfo> childs = infos.get(position).getChilds();
-                        infos.addAll(position + 1, childs);
+                        if(childs!=null) {
+                            infos.addAll(position + 1, childs);
+                        }
                         infos.get(position).setExpand(true);
-                        notifyItemRangeInserted(position+1,infos.get(position).getChilds().size());
 
                             if(onScrollToBottomListener!=null)
                                 onScrollToBottomListener.onBottom(position,infos.size());
-
-
-
-
                     }else{
-                        int count = infos.get(position).getChilds().size();
-                        infos.subList(position + 1 , position + 1+count).clear();
+                        infos.subList(position + 1 , position + 1+childSize).clear();
                         infos.get(position).setExpand(false);
-                        notifyItemRangeRemoved(position+1,count);
+
                     }
 
-
+                    notifyDataSetChanged();
 
                 }
             });
@@ -100,6 +112,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             holderTwo.imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    LogUtil.e(position +"POS");
                     if(!holderTwo.checkPhoto.isChecked()) {
                         sendDatas.add(infos.get(position));
                         holderTwo.checkPhoto.setChecked(true);
@@ -183,5 +196,12 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public void setOnScrollToBottomListener(OnScrollToBottomListener onScrollToBottomListener) {
         this.onScrollToBottomListener = onScrollToBottomListener;
+    }
+
+    class AnimHandler extends Handler{
+        @Override
+        public void handleMessage(Message msg) {
+            notifyDataSetChanged();
+        }
     }
 }
