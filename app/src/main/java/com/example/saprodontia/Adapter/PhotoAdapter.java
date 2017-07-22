@@ -1,5 +1,6 @@
 package com.example.saprodontia.Adapter;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -67,7 +68,6 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 holderOne.imageArrow.setImageDrawable(context.getDrawable(R.drawable.arrowdown));
             }else{
                 holderOne.imageArrow.setImageDrawable(context.getDrawable(R.drawable.arrow));
-
             }
 
             TextView tv =  holderOne.textView;
@@ -76,7 +76,8 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 @Override
                 public void onClick(View v) {
 
-                    final long start = System.currentTimeMillis();
+                    LogUtil.e("AdapterPos " +holder.getAdapterPosition() );
+
                     List<FileInfo> childs = infos.get(position).getChilds();
                     int childSize = 0;
 
@@ -84,17 +85,17 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         childSize=childs.size();
                     }
 
-                    LogUtil.e(position +"POS");
-
                     if(!infos.get(position).isExpand()) {
 
                         if(childs!=null) {
                             infos.addAll(position + 1, childs);
                         }
+
                         infos.get(position).setExpand(true);
 
                             if(onScrollToBottomListener!=null)
-                                onScrollToBottomListener.onBottom(position,infos.size());
+                                onScrollToBottomListener.onBottom(position,infos.size());;
+
                     }else{
                         infos.subList(position + 1 , position + 1+childSize).clear();
                         infos.get(position).setExpand(false);
@@ -102,6 +103,10 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     }
 
                     notifyDataSetChanged();
+
+
+
+
 
                 }
             });

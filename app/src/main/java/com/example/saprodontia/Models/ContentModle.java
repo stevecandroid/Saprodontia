@@ -189,12 +189,12 @@ public class ContentModle {
         }
     }
 
-    private class FileLoadTask extends AsyncTask<Void,Void,Void>{
+    private class FileLoadTask extends AsyncTask<Void,Integer,Void>{
+
+        int progress = 0 ;
 
         @Override
         protected Void doInBackground(Void... params) {
-
-            int t =  0;
 
             String[] projection = new String[]{MediaStore.Files.FileColumns.DATA,
                     MediaStore.Files.FileColumns.MIME_TYPE, MediaStore.Files.FileColumns.SIZE, MediaStore.Files.FileColumns.TITLE};
@@ -231,9 +231,11 @@ public class ContentModle {
 
                     fileInfos.add(info);
 
-                    if (t % 10 == 0 || t < 10)
+                    progress++;
+
+
                         publishProgress();
-                    t++;
+
 
                 } while (cursor.moveToNext());
 
@@ -243,14 +245,14 @@ public class ContentModle {
         }
 
         @Override
-        protected void onProgressUpdate(Void... values) {
-            mOnFileDataChangedListener.onDataChanged();
+        protected void onProgressUpdate(Integer... values) {
+            mOnFileDataChangedListener.onDataChanged(progress);
             super.onProgressUpdate(values);
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            mOnFileDataChangedListener.onDataChanged();
+            mOnFileDataChangedListener.onDataChanged(progress);
             super.onPostExecute(aVoid);
         }
     }
@@ -302,7 +304,7 @@ public class ContentModle {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            mOnFileDataChangedListener.onDataChanged();
+            mOnVideoDataChangedListener.onDataChange();
         }
 
         @Override
@@ -321,7 +323,7 @@ public class ContentModle {
     }
 
     public interface OnFileDataChangedListener {
-        void onDataChanged();
+        void onDataChanged(int position);
     }
 
     public interface OnMusicDataChangedListener{

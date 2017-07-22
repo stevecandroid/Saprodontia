@@ -7,16 +7,19 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.saprodontia.Adapter.ItemAdapter;
 import com.example.saprodontia.Models.FileInfo;
 import com.example.saprodontia.R;
 import com.example.saprodontia.Utils.LogUtil;
+import com.example.saprodontia.View.MyProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +33,7 @@ public class FragC extends BaseFragment {
     List<FileInfo> infos ;
     ItemAdapter mItemAdapter;
     MyReceiver myReceiver;
+    RecyclerView recycle;
 
 
     @Nullable
@@ -37,8 +41,9 @@ public class FragC extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.item_pager,container,false);
         infos = new ArrayList<>();
-        RecyclerView recycle = (RecyclerView) view.findViewById(R.id.recycle_item);
+        recycle = (RecyclerView) view.findViewById(R.id.recycle_item);
         recycle.setLayoutManager(new LinearLayoutManager(getContext()));
+        recycle.setItemAnimator(new DefaultItemAnimator());
         mItemAdapter = new ItemAdapter(this,infos);
         recycle.setAdapter(mItemAdapter);
 
@@ -71,7 +76,7 @@ public class FragC extends BaseFragment {
                 info.setName(name);
                 info.setInitSize(initSize);
                 infos.add(info);
-                mItemAdapter.notifyDataSetChanged();
+                mItemAdapter.notifyItemInserted(infos.size());
                 LogUtil.e(name);
             }
 
@@ -81,8 +86,11 @@ public class FragC extends BaseFragment {
 
                 for(int i = 0 ; i < infos.size() ; i++){
                     if(infos.get(i).getName().equals(taskName)){
-                        infos.get(i).setProgress(intent.getLongExtra("progress",0));
+                        long progress = intent.getLongExtra("progress",0);
+                        MyProgressBar progressBar =  ((MyProgressBar)(recycle.getChildAt(i).findViewById(R.id.progress_bar)));
+                        progressBar.setProgress(progress);
                         mItemAdapter.notifyItemChanged(i);
+                        break;
                     }
                 }
 

@@ -10,13 +10,9 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.saprodontia.Activities.SendActivity;
 import com.example.saprodontia.Application.App;
 import com.example.saprodontia.Models.FileInfo;
-import com.example.saprodontia.Models.SocketModle;
 import com.example.saprodontia.R;
-import com.example.saprodontia.Utils.LogUtil;
-import com.example.saprodontia.Utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;

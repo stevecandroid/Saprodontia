@@ -1,10 +1,6 @@
 package com.example.saprodontia.Activities;
 
-import android.graphics.BitmapFactory;
-import android.media.ThumbnailUtils;
-import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -13,11 +9,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.saprodontia.Adapter.Adapter;
@@ -27,13 +19,11 @@ import com.example.saprodontia.Application.App;
 import com.example.saprodontia.Models.ContentModle;
 import com.example.saprodontia.Models.FileInfo;
 import com.example.saprodontia.Models.AppInfoModle;
-import com.example.saprodontia.Models.SocketModle;
+import com.example.saprodontia.Models.WifiModle;
 import com.example.saprodontia.R;
-import com.example.saprodontia.Utils.LogUtil;
-import com.example.saprodontia.Utils.ThumbUtils;
+import com.example.saprodontia.Utils.ToastUtil;
 import com.example.saprodontia.View.RecycleDecoration;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +33,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
 
     private AppInfoModle mAppInfoModle;
     private ContentModle mContentModle;
-    private SocketModle socketModle;
+    private WifiModle socketModle;
 
     private Adapter appAdapter;
     private Adapter docuAdapter;
@@ -62,7 +52,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send);
 
-        socketModle = new SocketModle(this);
+        socketModle = new WifiModle(this);
 
         mContentModle = new ContentModle(this);
         mAppInfoModle = new AppInfoModle(this);
@@ -278,8 +268,8 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
 
         mContentModle.setmOnFileDataChangedListener(new ContentModle.OnFileDataChangedListener() {
             @Override
-            public void onDataChanged() {
-                docuAdapter.notifyDataSetChanged();
+            public void onDataChanged(int position) {
+                docuAdapter.notifyItemInserted(position);
             }
         });
 
@@ -349,4 +339,22 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
 //            }
 //        }
 //    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    private long start = 0;
+    @Override
+    public void onBackPressed() {
+
+        ToastUtil.showToast("再按一次退出程序");
+        if(System.currentTimeMillis()-start > 1500 ){
+            start = System.currentTimeMillis();
+        }else{
+            finish();
+        }
+
+    }
 }

@@ -1,8 +1,13 @@
 package com.example.saprodontia.Activities;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -12,19 +17,34 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.example.saprodontia.Models.ContentModle;
+import com.example.saprodontia.Models.WifiModle;
 import com.example.saprodontia.R;
 import com.example.saprodontia.Service.ReceService;
+import com.example.saprodontia.Utils.LogUtil;
 import com.example.saprodontia.Utils.ToastUtil;
 import com.example.saprodontia.View.MyProgressBar;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    WifiModle wifiModle ;
+    WifiBroadcastReceiver wifiBroadcastReceiver;
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(wifiBroadcastReceiver);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+         wifiModle = new WifiModle(this);
+        wifiBroadcastReceiver = new WifiBroadcastReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+        registerReceiver(wifiBroadcastReceiver,intentFilter);
 
 
 //        List<String> l = SearchUtil.search("apk",new File("/data/app"));
@@ -167,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 //        wm.enableNetwork(,true)
 
-//        SocketModle socketModle = new SocketModle();
+//        WifiModle socketModle = new WifiModle();
 //        LogUtil.e(socketModle.connectWifi("KNT-AL20"));
 
 //        wm.startScan();
@@ -211,19 +231,63 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(final View v) {
         switch(v.getId()){
             case R.id.bt_receive:{
 
+                wifiModle.openHotSpot();
+
                 startActivity(new Intent(MainActivity.this,DownActivity.class));
                 startService(new Intent(MainActivity.this, ReceService.class));
+
+
                 // TODO: OPEN CONNECT WIFI  && START SERVICE
                 break;
             }
             case R.id.bt_send :{
+
+                wifiModle.openWifi();
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(4000);
+                            wifiModle.addConfig("Saprodontia");
+                            wifiModle.connectWifi("Saprodontia");
+                            ToastUtil.showToast("连接成功");
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+
                 startActivity(new Intent(MainActivity.this,SendActivity.class));
                 // TODO: 2017/7/16
                 break;
+            }
+        }
+    }
+
+
+
+    class WifiBroadcastReceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if(action.equals(WifiManager.WIFI_STATE_CHANGED_ACTION)){
+                int state = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE,0);
+                switch (state){
+                    case WifiManager.WIFI_STATE_ENABLED :{
+                        LogUtil.e("ENABLE");
+                        break;
+                    }
+
+                    case WifiManager.WIFI_STATE_DISABLED:{
+
+                    }
+                }
             }
         }
     }

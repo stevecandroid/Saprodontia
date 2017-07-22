@@ -23,11 +23,12 @@ import com.example.saprodontia.Utils.LogUtil;
 public class MyProgressBar extends View {
 
     private long max = 1;
-    private Long curProgress = 1L;
-    private Long destProgress = 1L;
+    private volatile Long curProgress = 1L;
+    private volatile Long destProgress = 1L;
     private TypedArray typedArray ;
     private Paint mPaint;
     private boolean enable = false;
+    private boolean isStart = false;
 
     public MyProgressBar(Context context) {
         super(context);
@@ -73,7 +74,10 @@ public class MyProgressBar extends View {
     public void setProgress(long destProgress) {
         LogUtil.e("DESTPROGRESS  "+destProgress);
             this.destProgress = destProgress;
-                startAnimation((destProgress - curProgress)/100);
+        if(!isStart) {
+            startAnimation((destProgress - curProgress) / 100);
+            isStart=true;
+        }
     }
 
     private  void startAnimation(final long velocity){
@@ -83,7 +87,7 @@ public class MyProgressBar extends View {
                 while(curProgress < destProgress){
                     curProgress += velocity;
                     try {
-                        Thread.sleep(10);
+                        Thread.sleep(20);
                         if(curProgress>destProgress){
                             curProgress = destProgress;
                         }
