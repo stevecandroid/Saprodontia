@@ -72,9 +72,9 @@ public class WifiModle {
         int connectId = 0 ;
 
         for(ScanResult r : results){
-            if(r.SSID.equals(ssid)){
+            if(r.SSID.contains(ssid)){
                 for(WifiConfiguration c : configs){
-                    if( c.SSID == ssid){
+                    if( c.SSID.contains(ssid)){
                         connectId = c.networkId;
                         wm.enableNetwork(connectId,true);
                         return true;

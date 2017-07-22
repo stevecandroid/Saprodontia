@@ -87,9 +87,8 @@ public class FragC extends BaseFragment {
                 for(int i = 0 ; i < infos.size() ; i++){
                     if(infos.get(i).getName().equals(taskName)){
                         long progress = intent.getLongExtra("progress",0);
-                        MyProgressBar progressBar =  ((MyProgressBar)(recycle.getChildAt(i).findViewById(R.id.progress_bar)));
-                        progressBar.setProgress(progress);
-                        mItemAdapter.notifyItemChanged(i);
+                        infos.get(i).setProgress(progress);
+                        mItemAdapter.notifyDataSetChanged();
                         break;
                     }
                 }

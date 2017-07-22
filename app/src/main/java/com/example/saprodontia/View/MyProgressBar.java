@@ -52,8 +52,8 @@ public class MyProgressBar extends View {
         super.onDraw(canvas);
 
         if(enable) {
-            canvas.drawRect(0, 0, (float) ((curProgress * getWidth() +0.0 )/( max + 0.0)), getHeight(), mPaint);
-            LogUtil.e(curProgress + "  ");
+            canvas.drawRect(0, 0, (float) ((destProgress * getWidth() +0.0 )/( max + 0.0)), getHeight(), mPaint);
+            LogUtil.e((destProgress+0.0)/max);
         }
 
     }
@@ -74,35 +74,9 @@ public class MyProgressBar extends View {
     public void setProgress(long destProgress) {
         LogUtil.e("DESTPROGRESS  "+destProgress);
             this.destProgress = destProgress;
-        if(!isStart) {
-            startAnimation((destProgress - curProgress) / 100);
-            isStart=true;
-        }
     }
 
-    private  void startAnimation(final long velocity){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while(curProgress < destProgress){
-                    curProgress += velocity;
-                    try {
-                        Thread.sleep(20);
-                        if(curProgress>destProgress){
-                            curProgress = destProgress;
-                        }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    postInvalidate();
-                }
-                LogUtil.e("DONE");
-                postInvalidate();
 
-            }
-        }).start();
-
-    }
 
 
 }

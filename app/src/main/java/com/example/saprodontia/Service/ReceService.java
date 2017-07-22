@@ -93,7 +93,7 @@ public class ReceService extends IntentService {
                                     progress.putExtra("taskName", nameAndSize[0]);
                                     progress.putExtra("progress", totallen);
                                     sendBroadcast(progress);
-                                    Thread.sleep(3000);
+                                    Thread.sleep(500);
                             }
                         } catch (InterruptedException e) {
                             e.printStackTrace();

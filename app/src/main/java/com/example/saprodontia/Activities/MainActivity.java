@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     WifiModle wifiModle ;
     WifiBroadcastReceiver wifiBroadcastReceiver;
+    ConnectHandler handler;
 
     @Override
     protected void onDestroy() {
@@ -39,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        handler = new ConnectHandler();
 
          wifiModle = new WifiModle(this);
         wifiBroadcastReceiver = new WifiBroadcastReceiver();
@@ -248,23 +251,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 wifiModle.openWifi();
 
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(4000);
-                            wifiModle.addConfig("Saprodontia");
-                            wifiModle.connectWifi("Saprodontia");
-                            ToastUtil.showToast("连接成功");
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }).start();
+         handler.sendEmptyMessage(0);
 
                 startActivity(new Intent(MainActivity.this,SendActivity.class));
                 // TODO: 2017/7/16
                 break;
+            }
+        }
+    }
+
+    private class ConnectHandler extends Handler{
+        @Override
+        public void handleMessage(Message msg) {
+            try{
+                Thread.sleep(3000);
+                wifiModle.openWifi();
+                wifiModle.addConfig("Saprodontia");
+                wifiModle.connectWifi("Saprodontia");
+                ToastUtil.showToast("连接成功");
+            }catch (Exception e){
+                handler.sendEmptyMessage(0);
             }
         }
     }
