@@ -1,6 +1,5 @@
 package com.example.saprodontia.Adapter;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,11 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.saprodontia.Activities.BaseFragment;
-import com.example.saprodontia.Activities.FragC;
 import com.example.saprodontia.Models.FileInfo;
 import com.example.saprodontia.R;
-import com.example.saprodontia.Utils.LogUtil;
 import com.example.saprodontia.Utils.MathUtil;
 import com.example.saprodontia.View.MyProgressBar;
 

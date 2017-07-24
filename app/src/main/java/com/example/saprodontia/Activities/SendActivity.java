@@ -31,7 +31,7 @@ import com.example.saprodontia.Utils.ToastUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SendActivity extends AppCompatActivity implements View.OnClickListener {
+public class SendActivity extends BaseActivity implements View.OnClickListener {
 
     private WifiModle socketModle;
     private ViewPager viewPager;
@@ -45,7 +45,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
 
         socketModle = new WifiModle(this);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
-        mUpLoadModel = new UpLoadModel();
+        mUpLoadModel = UpLoadModel.getInstance();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -56,6 +56,15 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         tabLayout.setupWithViewPager(viewPager);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
+
+
+//        tabLayout.addTab(tabLayout.newTab().setText("图片"));
+//        tabLayout.addTab(tabLayout.newTab().setText("应用"));
+//        tabLayout.addTab(tabLayout.newTab().setText("文档"));
+//        tabLayout.addTab(tabLayout.newTab().setText("视频"));
+//        tabLayout.addTab(tabLayout.newTab().setText("音乐"));
+
+
 
         tabLayout.getTabAt(0).setText("图片");
         tabLayout.getTabAt(1).setText("应用");
@@ -89,23 +98,6 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         MyPagerAdapter mySendPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(),fragments);
         viewPager.setAdapter(mySendPagerAdapter);
 
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id){
-            case R.id.download:
-                ToastUtil.showToast("DOWNLOAD");
-                // TODO: 2017/7/24
-                break;
-
-            case R.id.upload :
-                ToastUtil.showToast("UPLOAD");
-                // TODO: 2017/7/24
-                break;
-        }
-        return true;
     }
 
     private void initDialog(){
@@ -164,12 +156,5 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu,menu);
-        return true;
-    }
-
 
 }

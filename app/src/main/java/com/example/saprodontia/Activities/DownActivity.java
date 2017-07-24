@@ -5,12 +5,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.RadioButton;
 
 import com.example.saprodontia.Adapter.MyPagerAdapter;
+import com.example.saprodontia.Fragment.FragA;
+import com.example.saprodontia.Fragment.FragC;
 import com.example.saprodontia.R;
-import com.example.saprodontia.Utils.LogUtil;
 import com.example.saprodontia.Utils.ToastUtil;
 
 import java.util.ArrayList;
