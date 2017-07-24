@@ -255,7 +255,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         handler.sendEmptyMessage(0);
 
 
-
                 // TODO: 2017/7/16
                 break;
             }

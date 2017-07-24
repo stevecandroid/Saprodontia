@@ -2,27 +2,27 @@ package com.example.saprodontia.Activities;
 
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.saprodontia.Adapter.Adapter;
+import com.example.saprodontia.Adapter.MySendPagerAdapter;
 import com.example.saprodontia.Adapter.PhotoAdapter;
-import com.example.saprodontia.Adapter.SendPagerAdapter;
 import com.example.saprodontia.Application.App;
+import com.example.saprodontia.Fragment.FragApp;
+import com.example.saprodontia.Fragment.FragDocu;
+import com.example.saprodontia.Fragment.FragMusic;
+import com.example.saprodontia.Fragment.FragPhoto;
+import com.example.saprodontia.Fragment.FragVideo;
 import com.example.saprodontia.Models.ContentModle;
-import com.example.saprodontia.Models.FileInfo;
 import com.example.saprodontia.Models.AppInfoModle;
 import com.example.saprodontia.Models.WifiModle;
 import com.example.saprodontia.R;
 import com.example.saprodontia.Utils.ToastUtil;
-import com.example.saprodontia.View.RecycleDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,12 +34,12 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
     private AppInfoModle mAppInfoModle;
     private ContentModle mContentModle;
     private WifiModle socketModle;
-
-    private Adapter appAdapter;
-    private Adapter docuAdapter;
-    private Adapter videoAdapter;
-    private Adapter musicAdapter;
-    private PhotoAdapter photoAdapter;
+//
+//    private Adapter appAdapter;
+//    private Adapter docuAdapter;
+//    private Adapter videoAdapter;
+//    private Adapter musicAdapter;
+//    private PhotoAdapter photoAdapter;
 
 
 
@@ -68,7 +68,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         tabLayout.setupWithViewPager(viewPager);
 
         initAdapter();
-        initListener();
+//        initListener();
 
         tabLayout.getTabAt(0).setText("图片");
         tabLayout.getTabAt(1).setText("应用");
@@ -176,116 +176,123 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initAdapter(){
 
-        List<Adapter> listAdapter = new ArrayList<>();
-        appAdapter = new Adapter( this,mAppInfoModle.initSimAppInfos());
-        videoAdapter = new Adapter(this, mContentModle.getVideosFile());
-        docuAdapter = new Adapter(this, mContentModle.getFileInfos());
-        musicAdapter = new Adapter(this,mContentModle.getMusicInfos());
-        photoAdapter = new PhotoAdapter(mContentModle.getImagesFolder(),this);
+//        List<Adapter> listAdapter = new ArrayList<>();
+//        appAdapter = new Adapter( this,mAppInfoModle.initSimAppInfos());
+//        videoAdapter = new Adapter(this, mContentModle.getVideosFile());
+//        docuAdapter = new Adapter(this, mContentModle.getFileInfos());
+//        musicAdapter = new Adapter(this,mContentModle.getMusicInfos());
+//        photoAdapter = new PhotoAdapter(mContentModle.getImagesFolder(),this);
+//
+//        listAdapter.add(appAdapter);
+//        listAdapter.add(docuAdapter);
+//        listAdapter.add(videoAdapter);
+//        listAdapter.add(musicAdapter);
+//
+//        final RecyclerView recyphoto = new RecyclerView(this);
+//
+//        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,3);
+//        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+//            @Override
+//            public int getSpanSize(int position) {
+//                if (recyphoto.getAdapter().getItemViewType(position)==1){
+//                    return 3;
+//                }else {
+//                    return 1;
+//                }
+//            }
+//        });
+//
+//        photoAdapter.setOnSendDataChangeListener(new PhotoAdapter.OnSendDataChangeListener() {
+//            @Override
+//            public void onSendDataChange(List<FileInfo> list) {
+//                title.setText("当前已选择: " + list.size() +" 个");
+//            }
+//        });
+//
+//        photoAdapter.setOnScrollToBottomListener(new PhotoAdapter.OnScrollToBottomListener() {
+//            @Override
+//            public void onBottom(int pos, int length) {
+//                int vPos = ((GridLayoutManager)(recyphoto.getLayoutManager())).findLastVisibleItemPosition();
+//               if(vPos == pos || pos == vPos-1){
+//                   recyphoto.smoothScrollToPosition(pos+1);
+//               }
+//            }
+//        });
+//
+//
+//
+//        recyphoto.setAdapter(photoAdapter);
+//        recyphoto.setLayoutManager(gridLayoutManager);
+//        recyphoto.setItemAnimator(new DefaultItemAnimator());
+//        recyphoto.addItemDecoration(new RecycleDecoration());
+//        views.add(recyphoto);
+//
+//        for(int i = 0 ; i < listAdapter.size() ; i++){
+//            RecyclerView recyclerView = new RecyclerView(this);
+//            recyclerView.setAdapter(listAdapter.get(i));
+//            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//            recyclerView.setItemAnimator(new DefaultItemAnimator());
+//            recyclerView.addItemDecoration(new RecycleDecoration());
+//
+//            listAdapter.get(i).setmOnSenDatasChangedListener(new Adapter.onSenDatasChangedListener() {
+//                @Override
+//                public void onDataChanged(List<FileInfo> fileInfos) {
+//                    title.setText("当前已选择: " + fileInfos.size() +" 个");
+//                }
+//            });
+//
+//            views.add(recyclerView);
+//        }
 
-        listAdapter.add(appAdapter);
-        listAdapter.add(docuAdapter);
-        listAdapter.add(videoAdapter);
-        listAdapter.add(musicAdapter);
 
-        final RecyclerView recyphoto = new RecyclerView(this);
-
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,3);
-        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                if (recyphoto.getAdapter().getItemViewType(position)==1){
-                    return 3;
-                }else {
-                    return 1;
-                }
-            }
-        });
-
-        photoAdapter.setOnSendDataChangeListener(new PhotoAdapter.OnSendDataChangeListener() {
-            @Override
-            public void onSendDataChange(List<FileInfo> list) {
-                title.setText("当前已选择: " + list.size() +" 个");
-            }
-        });
-
-        photoAdapter.setOnScrollToBottomListener(new PhotoAdapter.OnScrollToBottomListener() {
-            @Override
-            public void onBottom(int pos, int length) {
-                int vPos = ((GridLayoutManager)(recyphoto.getLayoutManager())).findLastVisibleItemPosition();
-               if(vPos == pos || pos == vPos-1){
-                   recyphoto.smoothScrollToPosition(pos+1);
-               }
-            }
-        });
-
-
-
-        recyphoto.setAdapter(photoAdapter);
-        recyphoto.setLayoutManager(gridLayoutManager);
-        recyphoto.setItemAnimator(new DefaultItemAnimator());
-        recyphoto.addItemDecoration(new RecycleDecoration());
-        views.add(recyphoto);
-
-        for(int i = 0 ; i < listAdapter.size() ; i++){
-            RecyclerView recyclerView = new RecyclerView(this);
-            recyclerView.setAdapter(listAdapter.get(i));
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            recyclerView.setItemAnimator(new DefaultItemAnimator());
-            recyclerView.addItemDecoration(new RecycleDecoration());
-
-            listAdapter.get(i).setmOnSenDatasChangedListener(new Adapter.onSenDatasChangedListener() {
-                @Override
-                public void onDataChanged(List<FileInfo> fileInfos) {
-                    title.setText("当前已选择: " + fileInfos.size() +" 个");
-                }
-            });
-
-            views.add(recyclerView);
-        }
-
-
-        SendPagerAdapter sendPagerAdapter = new SendPagerAdapter(views);
-        viewPager.setAdapter(sendPagerAdapter);
+//        SendPagerAdapter sendPagerAdapter = new SendPagerAdapter(views);
+        List<Fragment> fragments = new ArrayList<>();
+        fragments.add(new FragPhoto());
+        fragments.add(new FragApp());
+        fragments.add(new FragDocu());
+        fragments.add(new FragVideo());
+        fragments.add(new FragMusic());
+        MySendPagerAdapter mySendPagerAdapter = new MySendPagerAdapter(getSupportFragmentManager(),fragments);
+        viewPager.setAdapter(mySendPagerAdapter);
     }
 
-    private  void initListener(){
-
-        mAppInfoModle.setmOnDataChangeListener(new AppInfoModle.OnDataChangeListener() {
-            @Override
-            public void onDataChange() {
-                appAdapter.notifyDataSetChanged();
-            }
-        });
-
-        mContentModle.setmOnVideoDataChangedListener(new ContentModle.OnVideoDataChangedListener() {
-            @Override
-            public void onDataChange() {
-                videoAdapter.notifyDataSetChanged();
-            }
-        });
-
-        mContentModle.setmOnFileDataChangedListener(new ContentModle.OnFileDataChangedListener() {
-            @Override
-            public void onDataChanged(int position) {
-                docuAdapter.notifyItemInserted(position);
-            }
-        });
-
-        mContentModle.setmOnImageDataChangedListener(new ContentModle.OnImageDataChangedListener() {
-            @Override
-            public void onDataChanged() {
-
-            }
-        });
-
-        mContentModle.setmOnMusicDataChangedListener(new ContentModle.OnMusicDataChangedListener() {
-            @Override
-            public void onDataChanged() {
-                musicAdapter.notifyDataSetChanged();
-            }
-        });
-    }
+//    private  void initListener(){
+//
+//        mAppInfoModle.setmOnDataChangeListener(new AppInfoModle.OnDataChangeListener() {
+//            @Override
+//            public void onDataChange() {
+//                appAdapter.notifyDataSetChanged();
+//            }
+//        });
+//
+//        mContentModle.setmOnVideoDataChangedListener(new ContentModle.OnVideoDataChangedListener() {
+//            @Override
+//            public void onDataChange() {
+//                videoAdapter.notifyDataSetChanged();
+//            }
+//        });
+//
+//        mContentModle.setmOnFileDataChangedListener(new ContentModle.OnFileDataChangedListener() {
+//            @Override
+//            public void onDataChanged(int position) {
+//                docuAdapter.notifyItemInserted(position);
+//            }
+//        });
+//
+//        mContentModle.setmOnImageDataChangedListener(new ContentModle.OnImageDataChangedListener() {
+//            @Override
+//            public void onDataChanged() {
+//
+//            }
+//        });
+//
+//        mContentModle.setmOnMusicDataChangedListener(new ContentModle.OnMusicDataChangedListener() {
+//            @Override
+//            public void onDataChanged() {
+//                musicAdapter.notifyDataSetChanged();
+//            }
+//        });
+//}
 
 
 //    class WifiReceiver extends BroadcastReceiver{

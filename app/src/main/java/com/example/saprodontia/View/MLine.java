@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.LinearLayout;
 
+import com.example.saprodontia.Utils.LogUtil;
+
 /**
  * Created by 铖哥 on 2017/7/13.
  */
@@ -53,15 +55,6 @@ public class MLine extends LinearLayout {
     @Override
     public void onWindowFocusChanged(boolean hasWindowFocus) {
         super.onWindowFocusChanged(hasWindowFocus);
-
-        for (int i = 0; recyclerView == null && i < getChildCount(); i++) {
-            if (getChildAt(i) instanceof RecyclerView) {
-                recyclerView = (RecyclerView) getChildAt(i);
-                break;
-            }
-        }
-
-
     }
 
     @Override
@@ -72,37 +65,49 @@ public class MLine extends LinearLayout {
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
 
+        for (int i = 0; recyclerView == null && i < getChildCount(); i++) {
+            LogUtil.e(getChildCount()+"child");
+            if (getChildAt(i) instanceof RecyclerView) {
+                recyclerView = (RecyclerView) getChildAt(i);
+                break;
+            }
+        }
+
         switch (ev.getAction()) {
 
             case MotionEvent.ACTION_DOWN: {
                 downY = (int) ev.getY();
-                break;
+                return super.dispatchTouchEvent(ev);
+
             }
 
             case MotionEvent.ACTION_MOVE: {
 
-                if (((LinearLayoutManager) (recyclerView.getLayoutManager())).findFirstCompletelyVisibleItemPosition() == 0
-                        && (ev.getY() - downY) > 10) {
+                if(recyclerView!=null) {
 
-                    if (deafultY == 0) {
-                        deafultY = (int) ev.getY();
+                    if (((LinearLayoutManager) (recyclerView.getLayoutManager())).findFirstCompletelyVisibleItemPosition() == 0
+                            && (ev.getY() - downY) > 10) {
+
+                        if (deafultY == 0) {
+                            deafultY = (int) ev.getY();
+                        }
+
+                        scrollTo(0, (int) (deafultY - ev.getY()) / 3);
+                        return true;
+                    } else if (((LinearLayoutManager) (recyclerView.getLayoutManager())).findLastCompletelyVisibleItemPosition() ==
+                            (recyclerView.getAdapter().getItemCount() - 1)
+                            && (ev.getY() - downY) < -10) {
+
+                        if (deafultY == 0) {
+                            deafultY = (int) ev.getY();
+                        }
+
+                        scrollTo(0, (int) (deafultY - ev.getY()) / 3);
+                        return true;
+
+                    } else {
+                        break;
                     }
-
-                    scrollTo(0, (int) (deafultY - ev.getY()) / 3);
-                    return true;
-                } else if (((LinearLayoutManager) (recyclerView.getLayoutManager())).findLastCompletelyVisibleItemPosition() ==
-                        (recyclerView.getAdapter().getItemCount() - 1)
-                        && (ev.getY() - downY) < -10) {
-
-                    if (deafultY == 0) {
-                        deafultY = (int) ev.getY();
-                    }
-
-                    scrollTo(0, (int) (deafultY - ev.getY()) / 3);
-                    return true;
-
-                } else {
-                    break;
                 }
 
             }

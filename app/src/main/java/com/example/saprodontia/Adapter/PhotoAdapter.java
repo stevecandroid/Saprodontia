@@ -122,12 +122,16 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         sendDatas.add(infos.get(position));
                         holderTwo.checkPhoto.setChecked(true);
                         holderTwo.checkPhoto.setVisibility(View.VISIBLE);
-                        onSendDataChangeListener.onSendDataChange(sendDatas);
+                        if(onSendDataChangeListener!=null) {
+                            onSendDataChangeListener.onSendDataChange(sendDatas);
+                        }
                     }else{
                         sendDatas.remove(infos.get(position));
                         holderTwo.checkPhoto.setChecked(false);
                         holderTwo.checkPhoto.setVisibility(View.INVISIBLE);
-                        onSendDataChangeListener.onSendDataChange(sendDatas);
+                        if(onSendDataChangeListener!=null) {
+                            onSendDataChangeListener.onSendDataChange(sendDatas);
+                        }
                     }
                 }
             });

@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">坏牙</string>
     <string name="exit">退出程序</string>
+    <string name="FABehavior">com.example.saprodontia.Behavior.FABavior</string>
 </resources>
