@@ -24,12 +24,10 @@ import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
-    private Fragment fragment;
+
     private List<FileInfo> mDatas;
 
     public ItemAdapter(Fragment fragment , List<FileInfo> datas) {
-        this.fragment = fragment;
-
         mDatas = datas;
     }
 
