@@ -29,9 +29,6 @@ public class FABavior extends FloatingActionButton.Behavior {
     @Override
     public void onNestedScroll(CoordinatorLayout coordinatorLayout, FloatingActionButton child, View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
 
-        LogUtil.e(dyConsumed);
-        LogUtil.e(dyUnconsumed);
-
         if ( (dyConsumed > 0 && child.getVisibility()==View.VISIBLE ) ) {
             hide(child);
         }else if( dyConsumed < 0 && child.getVisibility()!=View.VISIBLE){

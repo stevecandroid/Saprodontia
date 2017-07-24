@@ -64,6 +64,11 @@ public class FragC extends BaseFragment {
 
     }
 
+    @Override
+    protected void notifyAdapter() {
+        mItemAdapter.notifyDataSetChanged();
+    }
+
     class MyReceiver extends BroadcastReceiver{
 
         @Override

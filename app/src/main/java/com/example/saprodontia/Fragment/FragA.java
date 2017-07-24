@@ -59,6 +59,11 @@ public class FragA extends BaseFragment {
         getContext().registerReceiver(myReceiver,intentFilter);
     }
 
+    @Override
+    protected void notifyAdapter() {
+        mItemAdapter.notifyDataSetChanged();
+    }
+
     class FragAReceiver extends BroadcastReceiver{
 
         @Override

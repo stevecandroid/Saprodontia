@@ -19,6 +19,7 @@ import com.example.saprodontia.R;
 
 public class FragMusic extends BaseFragment {
 
+    private Adapter adapter;
 
     @Nullable
     @Override
@@ -30,7 +31,7 @@ public class FragMusic extends BaseFragment {
         View view = inflater.inflate(R.layout.item_pager,container,false);
         final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycle_item);
 
-        final Adapter adapter = new Adapter(getContext(),mContentModle.getMusicInfos());
+        adapter = new Adapter(getContext(),mContentModle.getMusicInfos());
 
         mContentModle.setmOnMusicDataChangedListener(new ContentModle.OnMusicDataChangedListener() {
             @Override
@@ -43,5 +44,10 @@ public class FragMusic extends BaseFragment {
         recyclerView.setAdapter(adapter);
 
         return view;
+    }
+
+    @Override
+    protected void notifyAdapter() {
+        adapter.notifyDataSetChanged();
     }
 }

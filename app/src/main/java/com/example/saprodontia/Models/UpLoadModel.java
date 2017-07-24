@@ -84,12 +84,6 @@ public class UpLoadModel {
 
 
 
-
-
-
-
-
-
     private class UpLoadTask extends AsyncTask<Void,Object,Void>{
         private List<FileInfo> fileInfos;
         private boolean allow = true;
@@ -121,15 +115,11 @@ public class UpLoadModel {
             }
 
 
-
-
             super.onPreExecute();
         }
 
         @Override
         protected Void doInBackground(Void... params) {
-
-
 
             for(int i = 0 ; i < fileInfos.size()  ; i++) {
 

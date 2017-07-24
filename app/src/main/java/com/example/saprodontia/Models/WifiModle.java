@@ -35,6 +35,7 @@ public class WifiModle {
         Intent intent = new Intent(App.getContext(),SendService.class);
         intent.putParcelableArrayListExtra("datas",datas);
         App.getContext().startService(intent);
+        datas.clear();
     }
 
 

@@ -21,6 +21,7 @@ import com.example.saprodontia.R;
 public class FragApp extends BaseFragment {
 
     private AppInfoModle mContentModle;
+    private  Adapter adapter;
 
     @Nullable
     @Override
@@ -30,7 +31,7 @@ public class FragApp extends BaseFragment {
         View view = inflater.inflate(R.layout.item_pager,container,false);
         final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycle_item);
 
-        final Adapter adapter = new Adapter(getContext(),mContentModle.initSimAppInfos());
+          adapter = new Adapter(getContext(),mContentModle.initSimAppInfos());
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -45,5 +46,10 @@ public class FragApp extends BaseFragment {
 
 
         return view;
+    }
+
+    @Override
+    protected void notifyAdapter() {
+        adapter.notifyDataSetChanged();
     }
 }

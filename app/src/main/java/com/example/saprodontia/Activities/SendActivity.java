@@ -1,5 +1,6 @@
 package com.example.saprodontia.Activities;
 
+import android.content.Intent;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -124,6 +125,7 @@ public class SendActivity extends BaseActivity implements View.OnClickListener {
                 ToastUtil.showToast("SEND");
                 socketModle.shareFile(((App)(getApplicationContext())).getSenDatas());
                 bsDialog.dismiss();
+                sendBroadcast(new Intent("SEND_DATA_CHANGE"));
             }
         });
 

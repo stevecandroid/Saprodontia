@@ -22,7 +22,7 @@ import java.util.List;
 
 public class FragVideo extends BaseFragment {
 
-
+    private Adapter adapter;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public class FragVideo extends BaseFragment {
 
         final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycle_item);
 
-        final Adapter adapter = new Adapter(getContext(),mContentModle.getVideosFile());
+        adapter = new Adapter(getContext(),mContentModle.getVideosFile());
 
         mContentModle.setmOnVideoDataChangedListener(new ContentModle.OnVideoDataChangedListener() {
             @Override
@@ -45,5 +45,10 @@ public class FragVideo extends BaseFragment {
         recyclerView.setAdapter(adapter);
 
         return view;
+    }
+
+    @Override
+    protected void notifyAdapter() {
+        adapter.notifyDataSetChanged();
     }
 }

@@ -19,6 +19,8 @@ import com.example.saprodontia.R;
 
 public class FragDocu extends BaseFragment {
 
+    private Adapter adapter;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -27,7 +29,7 @@ public class FragDocu extends BaseFragment {
         View view = inflater.inflate(R.layout.item_pager,container,false);
         final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycle_item);
 
-        final Adapter adapter = new Adapter(getContext(),mContentModle.getFileInfos());
+         adapter = new Adapter(getContext(),mContentModle.getFileInfos());
 
        mContentModle.setmOnFileDataChangedListener(new ContentModle.OnFileDataChangedListener() {
            @Override
@@ -40,5 +42,10 @@ public class FragDocu extends BaseFragment {
         recyclerView.setAdapter(adapter);
 
         return view;
+    }
+
+    @Override
+    protected void notifyAdapter() {
+        adapter.notifyDataSetChanged();
     }
 }

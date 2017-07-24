@@ -23,7 +23,7 @@ import java.util.List;
 
 public class FragPhoto extends BaseFragment {
 
-
+    private PhotoAdapter photoAdapter;
 
     @Nullable
     @Override
@@ -42,7 +42,7 @@ public class FragPhoto extends BaseFragment {
 
         final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycle_item);
 
-        PhotoAdapter photoAdapter = new PhotoAdapter(mContentModle.getImagesFolder(),getContext());
+        photoAdapter = new PhotoAdapter(mContentModle.getImagesFolder(),getContext());
 
         photoAdapter.setOnScrollToBottomListener(new PhotoAdapter.OnScrollToBottomListener() {
             @Override
@@ -80,6 +80,10 @@ public class FragPhoto extends BaseFragment {
         return view;
     }
 
+    @Override
+    protected void notifyAdapter() {
+        photoAdapter.notifyDataSetChanged();
+    }
 
 
 }
