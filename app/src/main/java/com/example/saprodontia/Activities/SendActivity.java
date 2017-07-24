@@ -4,13 +4,15 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -21,6 +23,7 @@ import com.example.saprodontia.Fragment.FragDocu;
 import com.example.saprodontia.Fragment.FragMusic;
 import com.example.saprodontia.Fragment.FragPhoto;
 import com.example.saprodontia.Fragment.FragVideo;
+import com.example.saprodontia.Models.UpLoadModel;
 import com.example.saprodontia.Models.WifiModle;
 import com.example.saprodontia.R;
 import com.example.saprodontia.Utils.ToastUtil;
@@ -33,20 +36,26 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
     private WifiModle socketModle;
     private ViewPager viewPager;
     private BottomSheetDialog bsDialog;
+    private UpLoadModel mUpLoadModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send);
 
-        initDialog();
-        socketModle = new WifiModle(this);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
 
+        socketModle = new WifiModle(this);
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        mUpLoadModel = new UpLoadModel();
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        initDialog();
+        initAdapter();
         FloatingActionButton bt_ensure = (FloatingActionButton) findViewById(R.id.bt_ensure);
         bt_ensure.setOnClickListener(this);
         tabLayout.setupWithViewPager(viewPager);
-        initAdapter();
+        setSupportActionBar(toolbar);
+        ActionBar actionbar = getSupportActionBar();
 
         tabLayout.getTabAt(0).setText("图片");
         tabLayout.getTabAt(1).setText("应用");
@@ -82,6 +91,23 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id){
+            case R.id.download:
+                ToastUtil.showToast("DOWNLOAD");
+                // TODO: 2017/7/24
+                break;
+
+            case R.id.upload :
+                ToastUtil.showToast("UPLOAD");
+                // TODO: 2017/7/24
+                break;
+        }
+        return true;
+    }
+
     private void initDialog(){
         bsDialog = new BottomSheetDialog(this);
         View view = LayoutInflater.from(this).inflate(R.layout.dialog,null,false);
@@ -94,6 +120,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(View v) {
                 //// TODO: 2017/7/24
                 ToastUtil.showToast("UPLOAD");
+                mUpLoadModel.upLoadFile(((App)(App.getContext())).getSenDatas());
                 bsDialog.dismiss();
             }
         });
@@ -137,4 +164,12 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu,menu);
+        return true;
+    }
+
+
 }
