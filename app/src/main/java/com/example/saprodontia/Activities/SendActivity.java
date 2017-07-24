@@ -60,8 +60,6 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
 
-        View view = findViewById(R.id.abar_send);
-        title = (TextView) view.findViewById(R.id.tv_title);
 
         FloatingActionButton bt_ensure = (FloatingActionButton) findViewById(R.id.bt_ensure);
         bt_ensure.setOnClickListener(this);
@@ -191,6 +189,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         listAdapter.add(musicAdapter);
 
         final RecyclerView recyphoto = new RecyclerView(this);
+
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,3);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override

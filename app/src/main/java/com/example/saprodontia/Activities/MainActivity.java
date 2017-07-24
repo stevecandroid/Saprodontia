@@ -249,11 +249,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             case R.id.bt_send :{
 
-                wifiModle.openWifi();
-
-         handler.sendEmptyMessage(0);
 
                 startActivity(new Intent(MainActivity.this,SendActivity.class));
+                wifiModle.openWifi();
+                        handler.sendEmptyMessage(0);
+
+
+
                 // TODO: 2017/7/16
                 break;
             }
@@ -264,12 +266,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void handleMessage(Message msg) {
             try{
-                Thread.sleep(3000);
-                wifiModle.openWifi();
-                wifiModle.addConfig("Saprodontia");
-                wifiModle.connectWifi("Saprodontia");
-                ToastUtil.showToast("连接成功");
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                        wifiModle.openWifi();
+                        wifiModle.addConfig("Saprodontia");
+                        wifiModle.connectWifi("Saprodontia");
+                        ToastUtil.showToast("连接成功");
+                            Thread.sleep(3000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+
             }catch (Exception e){
+
                 handler.sendEmptyMessage(0);
             }
         }

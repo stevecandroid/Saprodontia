@@ -25,7 +25,7 @@ public class FileInfo implements Parcelable {
             return new FileInfo[size];
         }
     };
-    private String id;
+
     private transient Drawable icon;
     private transient Bitmap bitmap;
     private String name;
@@ -77,14 +77,6 @@ public class FileInfo implements Parcelable {
 
     public void setBitmap(Bitmap bitmap) {
         this.bitmap = bitmap;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public long getProgress() {

@@ -95,7 +95,6 @@ public class ContentModle {
                 childInfo.setLocation(location);
                 childInfo.setName(cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.DISPLAY_NAME)));
                 childInfo.setInitSize(Long.parseLong(cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.SIZE))));
-                childInfo.setId(cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns._ID)));
                 childInfo.setType(2);
 
                 if(!temp.equals(name)){
@@ -104,7 +103,12 @@ public class ContentModle {
                     folderInfo.setLocation(p);
                     folderInfo.setChilds(imageInfos);
                     folderInfo.setType(1);
-                    imageFolderInfos.add(folderInfo);
+
+                    if(!folderInfo.getName().equals("Camera") && !folderInfo.getName().equals("WeiXin") && !folderInfo.getName().equals("图片")){
+                        imageFolderInfos.add(folderInfo);
+                    }
+
+
                     temp = name;
                     imageInfos = new ArrayList<>();
                 }
