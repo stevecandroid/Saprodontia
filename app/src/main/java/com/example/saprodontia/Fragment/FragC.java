@@ -45,7 +45,7 @@ public class FragC extends BaseFragment {
         recycle = (RecyclerView) view.findViewById(R.id.recycle_item);
         recycle.setLayoutManager(new LinearLayoutManager(getContext()));
         recycle.setItemAnimator(new DefaultItemAnimator());
-        mItemAdapter = new ItemAdapter(this,infos);
+        mItemAdapter = new ItemAdapter(getContext(),infos);
         recycle.setAdapter(mItemAdapter);
 
 

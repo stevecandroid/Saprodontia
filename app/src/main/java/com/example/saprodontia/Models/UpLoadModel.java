@@ -1,11 +1,14 @@
 package com.example.saprodontia.Models;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 
+import com.example.saprodontia.Application.App;
 import com.example.saprodontia.Constant.Constant;
 import com.example.saprodontia.Utils.LogUtil;
+import com.example.saprodontia.db.DbHelper;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.Configuration;
 import com.qiniu.android.storage.KeyGenerator;
@@ -33,12 +36,13 @@ import java.util.List;
 
 public class UpLoadModel {
 
-    private onPercentChangedListener onPercentChangedListener;
+    private onTaskStateChangeListener onTaskStateChangeListener;
     private UploadManager uploadManager;
-    private static UpLoadModel upLoadModel = new UpLoadModel();
+    private static UpLoadModel upLoadModel = new UpLoadModel(App.getContext().getApplicationContext());
+    private List<FileInfo> uploadDatas;
 
-    private UpLoadModel() {
-
+    private UpLoadModel(Context context) {
+        uploadDatas = ((App)context).getUploadDatas();
     }
 
     public static UpLoadModel getInstance(){
@@ -70,18 +74,17 @@ public class UpLoadModel {
             new UpLoadTask(fileInfos).execute();
     }
 
-    public interface onPercentChangedListener{
+    public interface onTaskStateChangeListener{
+        void onTaskStart(List<FileInfo> readyFile);
         void onPercentChanged(String key, double progress);
+        void onSingleTaskFinish(FileInfo fileInfo);
+        void onTaskFinish();
 
     }
 
-    public void setOnPercentChangedListener(UpLoadModel.onPercentChangedListener onProgressChangedListener) {
-        this.onPercentChangedListener = onProgressChangedListener;
+    public void setTaskStateChangeListener(onTaskStateChangeListener onTaskStateChangeListener) {
+        this.onTaskStateChangeListener = onTaskStateChangeListener;
     }
-
-
-
-
 
 
     private class UpLoadTask extends AsyncTask<Void,Object,Void>{
@@ -110,10 +113,17 @@ public class UpLoadModel {
                 Recorder recorder = new FileRecorder(Constant.tempDir);
                 Configuration config = new Configuration.Builder().recorder(recorder,keyGen).build();
                 uploadManager = new UploadManager(config);
+                if(onTaskStateChangeListener!=null){
+                    onTaskStateChangeListener.onTaskStart(fileInfos);
+                }
+
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
+            uploadDatas.addAll(fileInfos);
+            DbHelper.AddFile(fileInfos);
 
             super.onPreExecute();
         }
@@ -122,14 +132,19 @@ public class UpLoadModel {
         protected Void doInBackground(Void... params) {
 
             for(int i = 0 ; i < fileInfos.size()  ; i++) {
-
+                final FileInfo fileInfo = fileInfos.get(i);
                 allow = false;
+
                 String upToken = createUpToken(Constant.AccessKey, Constant.secretKey, Constant.PhotoBucket);
 
-                uploadManager.put(new File(fileInfos.get(i).getLocation()), fileInfos.get(i).getName(), upToken, new UpCompletionHandler() {
+                uploadManager.put(new File(fileInfo.getLocation()), fileInfo.getName(), upToken, new UpCompletionHandler() {
                     @Override
                     public void complete(String key, ResponseInfo info, JSONObject response) {
                         if (info.isOK()) {
+                            if(onTaskStateChangeListener!=null)
+                            onTaskStateChangeListener.onSingleTaskFinish(fileInfo);
+                            uploadDatas.remove(fileInfo);
+                            fileInfo.delete();
                             LogUtil.e("Upload Success");
                         } else {
                             LogUtil.e("Upload Fail");
@@ -157,6 +172,7 @@ public class UpLoadModel {
                     }
                 }
 
+
             }
 
             return null;
@@ -164,14 +180,17 @@ public class UpLoadModel {
 
         @Override
         protected void onProgressUpdate(Object... values) {
-            if(onPercentChangedListener!=null)
-                onPercentChangedListener.onPercentChanged(values[0].toString() ,Double.valueOf(values[1].toString()));
-            LogUtil.e(values[0].toString()+"   + " + Double.valueOf(values[1].toString()));
+            if(onTaskStateChangeListener!=null)
+                onTaskStateChangeListener.onPercentChanged(values[0].toString() ,Double.valueOf(values[1].toString()));
+
             super.onProgressUpdate(values);
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            if(onTaskStateChangeListener!=null){
+                onTaskStateChangeListener.onTaskFinish();
+            }
             super.onPostExecute(aVoid);
         }
     }

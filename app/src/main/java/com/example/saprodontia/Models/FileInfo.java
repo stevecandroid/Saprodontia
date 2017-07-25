@@ -5,6 +5,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.litepal.crud.DataSupport;
+
 import java.util.List;
 
 /**
@@ -12,7 +14,7 @@ import java.util.List;
  */
 
 
-public class FileInfo implements Parcelable {
+public class FileInfo extends DataSupport implements Parcelable {
 
     public static final Creator<FileInfo> CREATOR = new Creator<FileInfo>() {
         @Override
@@ -36,6 +38,8 @@ public class FileInfo implements Parcelable {
     private int type;
     private List<FileInfo> childs;
     private boolean isExpand;
+
+
 
     public FileInfo() {
     }

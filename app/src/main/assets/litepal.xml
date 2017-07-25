@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<litepal>
+
+    <dbname value="UpLoadedFile">
+        <version value="1"></version>
+    </dbname>
+
+    <list>
+        <mapping class="com.example.saprodontia.Models.FileInfo"/>
+    </list>
+
+
+</litepal>

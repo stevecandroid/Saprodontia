@@ -22,13 +22,11 @@ import com.example.saprodontia.Utils.LogUtil;
 
 public class MyProgressBar extends View {
 
-    private long max = 1;
-    private volatile Long curProgress = 1L;
-    private volatile Long destProgress = 1L;
+    private double max = 1.0;
+    private volatile Double destProgress = 0.0;
     private TypedArray typedArray ;
     private Paint mPaint;
-    private boolean enable = false;
-    private boolean isStart = false;
+
 
     public MyProgressBar(Context context) {
         super(context);
@@ -51,29 +49,21 @@ public class MyProgressBar extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if(enable) {
             canvas.drawRect(0, 0, (float) ((destProgress * getWidth() +0.0 )/( max + 0.0)), getHeight(), mPaint);
-            LogUtil.e((destProgress+0.0)/max);
-        }
+            LogUtil.e((destProgress * getWidth()));
 
     }
 
-    public long getMax() {
-        return max;
-    }
 
-    public void setMax(long max) {
-        enable = true;
+    public void setMax(double max) {
         this.max = max;
     }
 
-    public long getProgress() {
-        return curProgress;
-    }
 
-    public void setProgress(long destProgress) {
+    public void setProgress(double destProgress) {
         LogUtil.e("DESTPROGRESS  "+destProgress);
             this.destProgress = destProgress;
+        postInvalidate();
     }
 
 

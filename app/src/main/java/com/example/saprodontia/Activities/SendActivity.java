@@ -7,13 +7,9 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -24,6 +20,7 @@ import com.example.saprodontia.Fragment.FragDocu;
 import com.example.saprodontia.Fragment.FragMusic;
 import com.example.saprodontia.Fragment.FragPhoto;
 import com.example.saprodontia.Fragment.FragVideo;
+import com.example.saprodontia.Models.FileInfo;
 import com.example.saprodontia.Models.UpLoadModel;
 import com.example.saprodontia.Models.WifiModle;
 import com.example.saprodontia.R;
@@ -112,8 +109,13 @@ public class SendActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onClick(View v) {
                 //// TODO: 2017/7/24
-                ToastUtil.showToast("UPLOAD");
-                mUpLoadModel.upLoadFile(((App)(App.getContext())).getSenDatas());
+
+                List<FileInfo> tempList = new ArrayList<FileInfo>();
+                List<FileInfo> sendDatas = ((App)(App.getContext())).getSenDatas();
+                tempList.addAll(sendDatas);
+                sendDatas.clear();
+                sendBroadcast(new Intent("SEND_DATA_CHANGE"));
+                mUpLoadModel.upLoadFile(tempList);
                 bsDialog.dismiss();
             }
         });

@@ -40,7 +40,7 @@ public class FragA extends BaseFragment {
         RecyclerView recycle = (RecyclerView) view.findViewById(R.id.recycle_item);
 
         recycle.setLayoutManager(new LinearLayoutManager(getContext()));
-        mItemAdapter = new ItemAdapter(this,infos);
+        mItemAdapter = new ItemAdapter(getContext(),infos);
         recycle.setAdapter(mItemAdapter);
         recycle.addItemDecoration(new RecycleDecoration());
 

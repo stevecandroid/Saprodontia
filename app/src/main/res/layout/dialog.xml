@@ -59,7 +59,7 @@
             android:paddingLeft="12dp"
             android:paddingTop="21dp"
             android:text="@string/upload"
-            app:layout_constraintBottom_toTopOf="@+id/tv_send"
+            app:layout_constraintBottom_toTopOf="@+id/tv_rece"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toRightOf="@+id/imageView4"
             app:layout_constraintRight_toRightOf="parent"
@@ -67,7 +67,7 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:id="@+id/tv_rece"
+            android:id="@+id/tv_send"
             android:layout_width="295dp"
             android:layout_height="52dp"
             android:layout_marginBottom="0dp"
@@ -83,7 +83,7 @@
             app:layout_constraintHorizontal_bias="0.0" />
 
         <TextView
-            android:id="@+id/tv_send"
+            android:id="@+id/tv_rece"
             android:layout_width="295dp"
             android:layout_height="52dp"
             android:layout_marginBottom="8dp"
@@ -92,7 +92,7 @@
             android:paddingLeft="12dp"
             android:paddingTop="21dp"
             android:text="@string/receive"
-            app:layout_constraintBottom_toTopOf="@+id/tv_rece"
+            app:layout_constraintBottom_toTopOf="@+id/tv_send"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toRightOf="@+id/imageView3"
             app:layout_constraintRight_toRightOf="parent" />

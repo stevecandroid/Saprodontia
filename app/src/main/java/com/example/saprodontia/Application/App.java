@@ -5,6 +5,9 @@ import android.content.Context;
 
 import com.example.saprodontia.Models.FileInfo;
 
+import org.litepal.LitePal;
+import org.litepal.LitePalApplication;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,11 +15,12 @@ import java.util.List;
  * Created by 铖哥 on 2017/7/16.
  */
 
-public class App extends Application{
+public class App extends LitePalApplication{
 
     private static Context context;
 
     private ArrayList<FileInfo>  senDatas;
+    private ArrayList<FileInfo> uploadDatas;
 
     private List<FileInfo> fileInfos;
     private List<FileInfo> videoInfos;
@@ -52,6 +56,10 @@ public class App extends Application{
 
     public List<FileInfo> getFileInfos() {
         return fileInfos;
+    }
+
+    public ArrayList<FileInfo> getUploadDatas() {
+        return uploadDatas;
     }
 
     public boolean isExecm() {
@@ -103,6 +111,8 @@ public class App extends Application{
         videoInfos = new ArrayList<>();
         imageFolderInfos = new ArrayList<>();
         appInfos = new ArrayList<>();
+        uploadDatas = new ArrayList<>();
+        LitePal.getDatabase();
         super.onCreate();
     }
 
