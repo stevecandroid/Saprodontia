@@ -24,7 +24,10 @@ import com.example.saprodontia.Models.FileInfo;
 import com.example.saprodontia.Models.UpLoadModel;
 import com.example.saprodontia.Models.WifiModle;
 import com.example.saprodontia.R;
+import com.example.saprodontia.Utils.LogUtil;
 import com.example.saprodontia.Utils.ToastUtil;
+
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,11 +59,10 @@ public class SendActivity extends BaseActivity implements View.OnClickListener {
         ActionBar actionbar = getSupportActionBar();
 
 
-//        tabLayout.addTab(tabLayout.newTab().setText("图片"));
-//        tabLayout.addTab(tabLayout.newTab().setText("应用"));
-//        tabLayout.addTab(tabLayout.newTab().setText("文档"));
-//        tabLayout.addTab(tabLayout.newTab().setText("视频"));
-//        tabLayout.addTab(tabLayout.newTab().setText("音乐"));
+        List<FileInfo> fileInfos = DataSupport.findAll(FileInfo.class);
+        for(FileInfo fileInfo : fileInfos){
+            LogUtil.e(fileInfo.getName());
+        }
 
 
 

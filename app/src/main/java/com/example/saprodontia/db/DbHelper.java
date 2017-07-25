@@ -21,4 +21,10 @@ public class DbHelper {
     public static void deleteFile(FileInfo fileInfo){
         fileInfo.delete();
     }
+
+    public static void changeFileInfoState(List<FileInfo> fileInfos,boolean isUploading){
+        for(int i = 0 ; i < fileInfos.size() ; i++){
+            fileInfos.get(i).setIsuploading(isUploading);
+        }
+    }
 }

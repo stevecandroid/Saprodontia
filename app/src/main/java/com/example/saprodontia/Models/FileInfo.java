@@ -36,10 +36,10 @@ public class FileInfo extends DataSupport implements Parcelable {
     private long initSize;
     private long progress;
     private int type;
-    private List<FileInfo> childs;
+//    private List<FileInfo> childs;
     private boolean isExpand;
 
-
+    private boolean isuploading = false;
 
     public FileInfo() {
     }
@@ -49,6 +49,14 @@ public class FileInfo extends DataSupport implements Parcelable {
         location = in.readString();
         size = in.readString();
         initSize = in.readLong();
+    }
+
+    public boolean isuploading() {
+        return isuploading;
+    }
+
+    public void setIsuploading(boolean isuploading) {
+        this.isuploading = isuploading;
     }
 
     public boolean isExpand() {

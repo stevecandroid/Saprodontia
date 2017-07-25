@@ -122,8 +122,9 @@ public class UpLoadModel {
                 e.printStackTrace();
             }
 
-            uploadDatas.addAll(fileInfos);
+            DbHelper.changeFileInfoState(fileInfos,true);
             DbHelper.AddFile(fileInfos);
+            uploadDatas.addAll(fileInfos);
 
             super.onPreExecute();
         }
@@ -144,7 +145,8 @@ public class UpLoadModel {
                             if(onTaskStateChangeListener!=null)
                             onTaskStateChangeListener.onSingleTaskFinish(fileInfo);
                             uploadDatas.remove(fileInfo);
-                            fileInfo.delete();
+                            fileInfo.setIsuploading(false);
+                            fileInfo.save();
                             LogUtil.e("Upload Success");
                         } else {
                             LogUtil.e("Upload Fail");
