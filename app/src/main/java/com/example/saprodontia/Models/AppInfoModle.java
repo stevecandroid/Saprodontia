@@ -2,7 +2,9 @@ package com.example.saprodontia.Models;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 
 import com.example.saprodontia.Application.App;
@@ -111,6 +113,15 @@ public class AppInfoModle {
             mOnDataChangeListener.onDataChange();
             super.onPostExecute(aBoolean);
         }
+    }
+
+    public static Drawable getApkIcon(String path , Context context){
+            PackageManager pm = context.getPackageManager();
+            PackageInfo packageInfo = pm.getPackageArchiveInfo(path,PackageManager.GET_ACTIVITIES);
+            ApplicationInfo info = packageInfo.applicationInfo;
+            info.sourceDir = path;
+            info.publicSourceDir = path;
+            return info.loadIcon(pm);
     }
 
 

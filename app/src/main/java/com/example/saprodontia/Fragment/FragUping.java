@@ -49,12 +49,11 @@ public class FragUping extends BaseFragment {
                     View view = recyclerView.getLayoutManager().findViewByPosition(i);
 
                     progressBar = (MyProgressBar) view.findViewById(R.id.progress_bar);
-                    LogUtil.e(((TextView)view.findViewById(R.id.tv_appname)).getText());
 
                     if ( key.equals(  ((TextView)view.findViewById(R.id.tv_appname)).getText())){
                         progressBar.setProgress(progress);
                         if(progress == 1.0){
-
+                            progressBar.setProgress(0);
                         }
                         adapter.notifyDataSetChanged();
                     }
@@ -64,13 +63,19 @@ public class FragUping extends BaseFragment {
 
             @Override
             public void onSingleTaskFinish(FileInfo fileInfo) {
+
+                List<FileInfo> uploadingDatas = ((App)(App.getContext().getApplicationContext())).getUploadingDatas();
+                for(int i = 0 ; i < uploadingDatas.size() ; i++){
+                    if(fileInfo.getName().equals(uploadingDatas.get(i).getName())){
+                        uploadingDatas.remove(i);
+                        break;
+                    }
+
+                }
+
                 adapter.notifyDataSetChanged();
             }
 
-            @Override
-            public void onTaskFinish() {
-
-            }
         });
     }
 
@@ -81,7 +86,7 @@ public class FragUping extends BaseFragment {
         View view = inflater.inflate(R.layout.item_pager,container,false);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycle_item);
-        adapter = new ItemAdapter(getContext(),((App)getContext().getApplicationContext()).getUploadDatas());
+        adapter = new ItemAdapter(getContext(),((App)getContext().getApplicationContext()).getUploadingDatas());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

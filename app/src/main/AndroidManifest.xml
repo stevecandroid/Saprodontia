@@ -40,10 +40,10 @@
             android:exported="false" />
 
         <activity android:name=".Activities.DownActivity" />
-
-        <activity android:name=".Activities.UpLoadActivity"
-            android:launchMode="singleTask">
-        </activity>
+        <activity
+            android:name=".Activities.UpLoadActivity"
+            android:launchMode="singleTask"></activity>
+        <activity android:name=".Activities.DownLoadActivity"></activity>
     </application>
 
 </manifest>

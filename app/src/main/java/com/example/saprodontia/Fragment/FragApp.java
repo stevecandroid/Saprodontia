@@ -43,8 +43,6 @@ public class FragApp extends BaseFragment {
            }
        });
 
-
-
         return view;
     }
 

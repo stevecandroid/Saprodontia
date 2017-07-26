@@ -20,7 +20,8 @@ public class App extends LitePalApplication{
     private static Context context;
 
     private ArrayList<FileInfo>  senDatas;
-    private ArrayList<FileInfo> uploadDatas;
+    private ArrayList<FileInfo> uploadingDatas;
+    private ArrayList<FileInfo> uploadedDatas;
 
     private List<FileInfo> fileInfos;
     private List<FileInfo> videoInfos;
@@ -58,8 +59,12 @@ public class App extends LitePalApplication{
         return fileInfos;
     }
 
-    public ArrayList<FileInfo> getUploadDatas() {
-        return uploadDatas;
+    public ArrayList<FileInfo> getUploadingDatas() {
+        return uploadingDatas;
+    }
+
+    public ArrayList<FileInfo> getUploadedDatas() {
+        return uploadedDatas;
     }
 
     public boolean isExecm() {
@@ -111,7 +116,9 @@ public class App extends LitePalApplication{
         videoInfos = new ArrayList<>();
         imageFolderInfos = new ArrayList<>();
         appInfos = new ArrayList<>();
-        uploadDatas = new ArrayList<>();
+        uploadingDatas = new ArrayList<>();
+        uploadedDatas = new ArrayList<>();
+
         LitePal.getDatabase();
         super.onCreate();
     }

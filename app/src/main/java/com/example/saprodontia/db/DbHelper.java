@@ -18,6 +18,8 @@ public class DbHelper {
         }
     }
 
+
+
     public static void deleteFile(FileInfo fileInfo){
         fileInfo.delete();
     }

@@ -38,6 +38,15 @@ public class FileInfo extends DataSupport implements Parcelable {
     private int type;
 //    private List<FileInfo> childs;
     private boolean isExpand;
+    private long mid;
+
+    public long getId() {
+        return mid;
+    }
+
+    public void setId(long mid) {
+        this.mid = mid;
+    }
 
     private boolean isuploading = false;
 
@@ -75,13 +84,13 @@ public class FileInfo extends DataSupport implements Parcelable {
         this.type = type;
     }
 
-    public List<FileInfo> getChilds() {
-        return childs;
-    }
-
-    public void setChilds(List<FileInfo> childs) {
-        this.childs = childs;
-    }
+//    public List<FileInfo> getChilds() {
+//        return childs;
+//    }
+//
+//    public void setChilds(List<FileInfo> childs) {
+//        this.childs = childs;
+//    }
 
     public Bitmap getBitmap() {
         return bitmap;

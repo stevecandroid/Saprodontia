@@ -76,20 +76,20 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 @Override
                 public void onClick(View v) {
 
-                    LogUtil.e("AdapterPos " +holder.getAdapterPosition() );
+//                    LogUtil.e("AdapterPos " +holder.getAdapterPosition() );
 
-                    List<FileInfo> childs = infos.get(position).getChilds();
+//                    List<FileInfo> childs = infos.get(position).getChilds();
                     int childSize = 0;
 
-                    if(childs!=null){
-                        childSize=childs.size();
-                    }
+//                    if(childs!=null){
+//                        childSize=childs.size();
+//                    }
 
                     if(!infos.get(position).isExpand()) {
 
-                        if(childs!=null) {
-                            infos.addAll(position + 1, childs);
-                        }
+//                        if(childs!=null) {
+//                            infos.addAll(position + 1, childs);
+//                        }
 
                         infos.get(position).setExpand(true);
 

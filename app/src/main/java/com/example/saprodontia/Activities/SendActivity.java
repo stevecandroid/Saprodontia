@@ -29,6 +29,7 @@ import com.example.saprodontia.Utils.ToastUtil;
 
 import org.litepal.crud.DataSupport;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,10 +60,7 @@ public class SendActivity extends BaseActivity implements View.OnClickListener {
         ActionBar actionbar = getSupportActionBar();
 
 
-        List<FileInfo> fileInfos = DataSupport.findAll(FileInfo.class);
-        for(FileInfo fileInfo : fileInfos){
-            LogUtil.e(fileInfo.getName());
-        }
+        initData();
 
 
 
@@ -112,12 +110,12 @@ public class SendActivity extends BaseActivity implements View.OnClickListener {
             public void onClick(View v) {
                 //// TODO: 2017/7/24
 
-                List<FileInfo> tempList = new ArrayList<FileInfo>();
+                List<FileInfo> readyToSendDatas = new ArrayList<FileInfo>();
                 List<FileInfo> sendDatas = ((App)(App.getContext())).getSenDatas();
-                tempList.addAll(sendDatas);
+                readyToSendDatas.addAll(sendDatas);
                 sendDatas.clear();
                 sendBroadcast(new Intent("SEND_DATA_CHANGE"));
-                mUpLoadModel.upLoadFile(tempList);
+                mUpLoadModel.upLoadFile(readyToSendDatas);
                 bsDialog.dismiss();
             }
         });
@@ -147,6 +145,10 @@ public class SendActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void onDestroy() {
+        ((App)getApplicationContext()).getUploadedDatas().clear();
+        ((App)getApplicationContext()).getUploadingDatas().clear();
+
+
         super.onDestroy();
     }
 
@@ -162,5 +164,21 @@ public class SendActivity extends BaseActivity implements View.OnClickListener {
         }
 
     }
+
+    public void initData(){
+        App app = ((App)getApplicationContext());
+        List<FileInfo> uploadingDatas = app.getUploadingDatas();
+        List<FileInfo> uploadedDatas = app.getUploadedDatas();
+        List<FileInfo> fileInfos = DataSupport.findAll(FileInfo.class);
+        for(int i = 0 ; i < fileInfos.size() ; i++){
+            if (fileInfos.get(i).isuploading()){
+                uploadingDatas.add(fileInfos.get(i));
+            }else{
+                uploadedDatas.add(fileInfos.get(i));
+            }
+        }
+    }
+
+
 
 }

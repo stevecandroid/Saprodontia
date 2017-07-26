@@ -101,7 +101,7 @@ public class ContentModle {
                     folderInfo = new FileInfo();
                     folderInfo.setName(temp);
                     folderInfo.setLocation(p);
-                    folderInfo.setChilds(imageInfos);
+//                    folderInfo.setChilds(imageInfos);
                     folderInfo.setType(1);
 
                     if(!folderInfo.getName().equals("Camera") && !folderInfo.getName().equals("WeiXin") && !folderInfo.getName().equals("图片")){
@@ -287,6 +287,7 @@ public class ContentModle {
                     String location = cursor.getString(cursor.getColumnIndex(MediaStore.Video.VideoColumns.DATA));
                     Long id = Long.valueOf(cursor.getString(cursor.getColumnIndex(MediaStore.Video.VideoColumns._ID)));
 
+                    info.setId(id);
                     info.setLocation(location);
                     info.setName(cursor.getString(cursor.getColumnIndex(MediaStore.Video.VideoColumns.DISPLAY_NAME)));
                     info.setInitSize(Long.parseLong(cursor.getString(cursor.getColumnIndex(MediaStore.Video.VideoColumns.SIZE))));

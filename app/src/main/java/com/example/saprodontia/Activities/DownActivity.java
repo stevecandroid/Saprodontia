@@ -38,16 +38,4 @@ public class DownActivity extends AppCompatActivity {
 
     }
 
-    private long start = 0;
-    @Override
-    public void onBackPressed() {
-
-        ToastUtil.showToast("再按一次退出程序");
-        if(System.currentTimeMillis()-start > 1500 ){
-            start = System.currentTimeMillis();
-        }else{
-            finish();
-        }
-
-    }
 }
