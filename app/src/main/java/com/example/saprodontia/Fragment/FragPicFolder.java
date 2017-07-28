@@ -13,6 +13,7 @@ import com.example.saprodontia.Adapter.PicFolderAdapter;
 import com.example.saprodontia.Models.ContentModle;
 import com.example.saprodontia.R;
 import com.example.saprodontia.Utils.ThumbUtils;
+import com.example.saprodontia.View.FolderDecoration;
 import com.example.saprodontia.View.RecycleDecoration;
 
 import java.io.File;
@@ -34,8 +35,8 @@ public class FragPicFolder extends Fragment {
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycle_item);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.addItemDecoration(new RecycleDecoration());
-        recyclerView.setAdapter(new PicFolderAdapter(contentModle.getImagesFolder()));
+        recyclerView.addItemDecoration(new FolderDecoration());
+        recyclerView.setAdapter(new PicFolderAdapter(contentModle.getImagesFolder(),getActivity()));
 
         return view;
     }

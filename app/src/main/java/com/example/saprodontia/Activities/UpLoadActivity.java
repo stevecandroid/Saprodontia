@@ -10,8 +10,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.example.saprodontia.Adapter.MyPagerAdapter;
+import com.example.saprodontia.Application.App;
 import com.example.saprodontia.Fragment.FragUping;
 import com.example.saprodontia.Fragment.FragAll;
+import com.example.saprodontia.Models.UpLoadModel;
 import com.example.saprodontia.R;
 
 import java.util.ArrayList;
@@ -20,17 +22,25 @@ import java.util.List;
 public class UpLoadActivity extends BaseActivity {
 
     private ViewPager viewPager;
+    private UpLoadModel upLoadModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send);
+        upLoadModel = UpLoadModel.getInstance();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         FloatingActionButton bt_ensure = (FloatingActionButton) findViewById(R.id.bt_ensure);
 //        bt_ensure.setVisibility(View.GONE);
+        bt_ensure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                upLoadModel.upLoadFile(((App) App.getContext().getApplicationContext()).getUploadingDatas());
 
+            }
+        });
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();

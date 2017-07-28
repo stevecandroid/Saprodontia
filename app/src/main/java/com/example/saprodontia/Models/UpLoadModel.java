@@ -1,5 +1,6 @@
 package com.example.saprodontia.Models;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -20,7 +21,10 @@ import com.qiniu.android.storage.UpProgressHandler;
 import com.qiniu.android.storage.UploadManager;
 import com.qiniu.android.storage.UploadOptions;
 import com.qiniu.android.storage.persistent.FileRecorder;
+import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
+import com.qiniu.storage.BucketManager;
+import com.qiniu.storage.model.FileListing;
 import com.qiniu.util.Auth;
 
 import org.json.JSONObject;
@@ -60,20 +64,6 @@ public class UpLoadModel {
         return upToken;
     }
 
-    public void downFromCloud(List<String> names){
-
-        for(int i = 0 ; i < names.size() ; i++){
-            try {
-                String encodeFileName = URLEncoder.encode(names.get(i),"utf-8");
-                String finalUrl = Constant.baseLink+encodeFileName;
-                LogUtil.e(finalUrl);
-
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
 
     public void upLoadFile(List<FileInfo> sendDatas){
             new UpLoadTask(sendDatas).execute();
@@ -107,11 +97,6 @@ public class UpLoadModel {
 
         @Override
         protected void onPreExecute() {
-            File tempDir = new File(Constant.tempDir);
-
-            if(!tempDir.exists()){
-                tempDir.mkdirs();
-            }
 
             KeyGenerator keyGen = new KeyGenerator(){
                 public String gen(String key, File file){
@@ -172,17 +157,17 @@ public class UpLoadModel {
                     public void complete(String key, ResponseInfo info, JSONObject response) {
 
                         if (info.isOK()) {
-//                            DataSupport.deleteAll(FileInfo.class,"name = ?",sendData.getName()); ???
-                            sendData.setIsuploading(false);
-                            sendData.save();
+                            ContentValues contentValues = new ContentValues();
+                            contentValues.put("isuploading",false);
+                            DataSupport.updateAll(FileInfo.class,contentValues,"name = ?",sendData.getName());
                             if(onTaskStateChangeListener!=null)
                                 onTaskStateChangeListener.onSingleTaskFinish(sendData);
                             if(onTaskFinishLishtener!=null){
                                 onTaskFinishLishtener.onTaskFinish(sendData);
                             }
-                            LogUtil.e("Upload Success");
+
                         } else {
-                            LogUtil.e("Upload Fail");
+
                         }
                         LogUtil.e(key + ",\r\n " + info + ",\r\n " + response);
                         allow = true;

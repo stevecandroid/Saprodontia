@@ -48,7 +48,6 @@ public class FragC extends BaseFragment {
         mItemAdapter = new ItemAdapter(getContext(),infos);
         recycle.setAdapter(mItemAdapter);
 
-
         return view;
     }
 

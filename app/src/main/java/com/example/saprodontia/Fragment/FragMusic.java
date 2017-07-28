@@ -37,7 +37,6 @@ public class FragMusic extends BaseFragment {
         mContentModle.setmOnMusicDataChangedListener(new ContentModle.OnMusicDataChangedListener() {
             @Override
             public void onDataChanged() {
-                LogUtil.e("getNotify!!!!");
                 adapter.notifyDataSetChanged();
             }
         });

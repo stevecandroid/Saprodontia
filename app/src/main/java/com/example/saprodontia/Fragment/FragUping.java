@@ -48,14 +48,16 @@ public class FragUping extends BaseFragment {
 
                     View view = recyclerView.getLayoutManager().findViewByPosition(i);
 
-                    progressBar = (MyProgressBar) view.findViewById(R.id.progress_bar);
+                    if(view !=null) {
+                        progressBar = (MyProgressBar) view.findViewById(R.id.progress_bar);
 
-                    if ( key.equals(  ((TextView)view.findViewById(R.id.tv_appname)).getText())){
-                        progressBar.setProgress(progress);
-                        if(progress == 1.0){
-                            progressBar.setProgress(0);
+                        if (key.equals(((TextView) view.findViewById(R.id.tv_appname)).getText())) {
+                            progressBar.setProgress(progress);
+                            if (progress == 1.0) {
+                                progressBar.setProgress(0);
+                            }
+                            adapter.notifyDataSetChanged();
                         }
-                        adapter.notifyDataSetChanged();
                     }
                 }
 

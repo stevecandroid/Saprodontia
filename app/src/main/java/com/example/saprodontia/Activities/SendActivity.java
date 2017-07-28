@@ -1,8 +1,7 @@
 package com.example.saprodontia.Activities;
 
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.os.Environment;
+import android.graphics.Bitmap;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -13,10 +12,12 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.saprodontia.Adapter.MyPagerAdapter;
 import com.example.saprodontia.Application.App;
+import com.example.saprodontia.Constant.Constant;
 import com.example.saprodontia.Fragment.FragApp;
 import com.example.saprodontia.Fragment.FragDocu;
 import com.example.saprodontia.Fragment.FragMusic;
@@ -28,12 +29,12 @@ import com.example.saprodontia.Models.UpLoadModel;
 import com.example.saprodontia.Models.WifiModle;
 import com.example.saprodontia.R;
 import com.example.saprodontia.Utils.LogUtil;
-import com.example.saprodontia.Utils.MathUtil;
-import com.example.saprodontia.Utils.ThumbUtils;
+import com.example.saprodontia.Utils.QiniuUtils;
 import com.example.saprodontia.Utils.ToastUtil;
 
 import org.litepal.crud.DataSupport;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +44,9 @@ public class SendActivity extends BaseActivity implements View.OnClickListener {
     private ViewPager viewPager;
     private BottomSheetDialog bsDialog;
     private UpLoadModel mUpLoadModel;
+    ImageView im;
+    Bitmap  bm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,9 +77,31 @@ public class SendActivity extends BaseActivity implements View.OnClickListener {
         tabLayout.getTabAt(3).setText("视频");
         tabLayout.getTabAt(4).setText("音乐");
 
-//        MathUtil.bytoKbOrMb(123);
+//        final Myhandler myhandler= new Myhandler();
+//        im = (ImageView) findViewById(R.id.imageView6);
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                ImageLoader imageLoader = new ImageLoader(SendActivity.this);
+//                Bitmap bitmap = imageLoader.loadBitmap("4.jpg",50,50);
+//                LogUtil.e("FFFFFFFFFFFF");
+//                myhandler.sendEmptyMessage(1);
+//                bm = bitmap;
+//            }
+//        }).start();
+
+
 
     }
+//
+//    class Myhandler extends  Handler{
+//        @Override
+//        public void handleMessage(Message msg) {
+////            super.handleMessage(msg);
+//            LogUtil.e("RECEIVE");
+//            im.setImageBitmap(bm);
+//        }
+//    }
 
 
     @Override
@@ -157,18 +183,19 @@ public class SendActivity extends BaseActivity implements View.OnClickListener {
         super.onDestroy();
     }
 
-    private long start = 0;
-    @Override
-    public void onBackPressed() {
-
-        ToastUtil.showToast("再按一次退出程序");
-        if(System.currentTimeMillis()-start > 1500 ){
-            start = System.currentTimeMillis();
-        }else{
-            finish();
-        }
-
-    }
+//    private long start = 0;
+//    @Override
+//    public void onBackPressed() {
+//
+//        ToastUtil.showToast("再按一次退出程序");
+//        if(System.currentTimeMillis()-start > 1500 ){
+//            start = System.currentTimeMillis();
+//            super.onBackPressed();
+//        }else{
+//            finish();
+//        }
+//
+//    }
 
     public void initData(){
         App app = ((App)getApplicationContext());
@@ -181,6 +208,12 @@ public class SendActivity extends BaseActivity implements View.OnClickListener {
             }else{
                 uploadedDatas.add(fileInfos.get(i));
             }
+        }
+
+        File tempDir = new File(Constant.tempDir);
+
+        if(!tempDir.exists()){
+            tempDir.mkdirs();
         }
     }
 

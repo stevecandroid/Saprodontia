@@ -77,7 +77,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             } else if (name.endsWith("ppt")){
                 holder.image_app.setImageDrawable(context.getDrawable(R.drawable.powerpoint));
             } else if (name.endsWith("mp4")){
-                LogUtil.e("IDDIDIDIDI =" + fileInfo.getId());
                 Bitmap bitmap = MediaStore.Video.Thumbnails.getThumbnail(context.getContentResolver(), fileInfo.getId(), MediaStore.Video.Thumbnails.MINI_KIND, options);
                 if(bitmap!=null)
                 holder.image_app.setImageBitmap(ThumbUtils.cutBitmap( bitmap,200,200 ));

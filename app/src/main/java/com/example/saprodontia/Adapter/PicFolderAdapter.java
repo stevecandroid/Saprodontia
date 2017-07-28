@@ -1,7 +1,10 @@
 package com.example.saprodontia.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,14 +14,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.saprodontia.Activities.PicActivity;
+import com.example.saprodontia.Activities.PicFragment;
 import com.example.saprodontia.Models.FileInfo;
 import com.example.saprodontia.R;
 import com.example.saprodontia.Utils.LogUtil;
 import com.example.saprodontia.Utils.SearchUtil;
-import com.example.saprodontia.Utils.ThumbUtils;
 
-import java.io.File;
 import java.util.List;
 
 /**
@@ -28,24 +29,33 @@ import java.util.List;
 public class PicFolderAdapter extends RecyclerView.Adapter<PicFolderAdapter.PicFolderViewHolder> {
 
     private List<FileInfo> fileInfos;
+    private Context context;
 
-    public PicFolderAdapter(List<FileInfo> fileInfos) {
+    public PicFolderAdapter(List<FileInfo> fileInfos,Context context) {
         this.fileInfos = fileInfos;
+        this.context = context;
     }
 
-    private Context context;
+
 
     @Override
     public PicFolderViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
-        context =parent.getContext();
+
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.pic_folder,parent,false);
         final PicFolderViewHolder picFolderViewHolder = new PicFolderViewHolder(view);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(parent.getContext(), PicActivity.class);
-                intent.putExtra("path",fileInfos.get(picFolderViewHolder.getAdapterPosition()).getLocation());
-                context.startActivity(intent);
+                PicFragment p = new PicFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("path",fileInfos.get(picFolderViewHolder.getAdapterPosition()).getLocation());
+                p.setArguments(bundle);
+                FragmentManager fm = ((AppCompatActivity)(context)).getSupportFragmentManager();
+                FragmentTransaction transaction = fm.beginTransaction();
+                transaction.addToBackStack(null);
+
+                transaction.replace(R.id.con,p);
+                transaction.commit();
             }
         });
 
@@ -79,4 +89,6 @@ public class PicFolderAdapter extends RecyclerView.Adapter<PicFolderAdapter.PicF
             ll_bt = (LinearLayout) itemView.findViewById(R.id.ll_bt);
         }
     }
+
+
 }

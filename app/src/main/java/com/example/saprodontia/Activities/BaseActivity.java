@@ -1,6 +1,8 @@
 package com.example.saprodontia.Activities;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,7 +26,7 @@ public class BaseActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id){
             case R.id.download:
-//                startActivity(new Intent());
+                startActivity(new Intent(BaseActivity.this,Cloud.class));
                 // TODO: 2017/7/24
                 break;
 
@@ -35,4 +37,5 @@ public class BaseActivity extends AppCompatActivity {
         }
         return true;
     }
+    
 }
