@@ -150,6 +150,7 @@ public class UpLoadModel {
 
             DbHelper.changeFileInfoState(sendDatas,true);
             ((App) (App.getContext().getApplicationContext())).getUploadingDatas().addAll(sendDatas);
+
             DbHelper.AddFile(sendDatas);
 
             sendDatas.addAll(templist);
@@ -171,7 +172,7 @@ public class UpLoadModel {
                     public void complete(String key, ResponseInfo info, JSONObject response) {
 
                         if (info.isOK()) {
-                            DataSupport.deleteAll(FileInfo.class,"name = ?",sendData.getName());
+//                            DataSupport.deleteAll(FileInfo.class,"name = ?",sendData.getName()); ???
                             sendData.setIsuploading(false);
                             sendData.save();
                             if(onTaskStateChangeListener!=null)

@@ -21,9 +21,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".Activities.MainActivity"
-            android:noHistory="true" />
         <activity android:name=".Activities.SendActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,8 +39,12 @@
         <activity android:name=".Activities.DownActivity" />
         <activity
             android:name=".Activities.UpLoadActivity"
-            android:launchMode="singleTask"></activity>
-        <activity android:name=".Activities.DownLoadActivity"></activity>
+            android:launchMode="singleTask" />
+        <activity android:name=".Activities.DownLoadActivity" />
+        <activity
+            android:name=".Activities.PicActivity"
+            android:label="@string/title_activity_pic"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

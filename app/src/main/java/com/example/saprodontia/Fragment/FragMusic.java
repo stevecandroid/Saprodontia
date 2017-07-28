@@ -12,6 +12,7 @@ import com.example.saprodontia.Activities.BaseFragment;
 import com.example.saprodontia.Adapter.Adapter;
 import com.example.saprodontia.Models.ContentModle;
 import com.example.saprodontia.R;
+import com.example.saprodontia.Utils.LogUtil;
 
 /**
  * Created by 铖哥 on 2017/7/24.
@@ -36,6 +37,7 @@ public class FragMusic extends BaseFragment {
         mContentModle.setmOnMusicDataChangedListener(new ContentModle.OnMusicDataChangedListener() {
             @Override
             public void onDataChanged() {
+                LogUtil.e("getNotify!!!!");
                 adapter.notifyDataSetChanged();
             }
         });

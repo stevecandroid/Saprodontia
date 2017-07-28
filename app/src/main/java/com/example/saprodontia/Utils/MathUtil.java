@@ -1,5 +1,9 @@
 package com.example.saprodontia.Utils;
 
+import android.support.annotation.CheckResult;
+import android.support.annotation.MainThread;
+import android.support.annotation.WorkerThread;
+
 /**
  * Created by 铖哥 on 2017/7/17.
  */
@@ -12,6 +16,7 @@ public class MathUtil {
 
             return n.substring(0,n.lastIndexOf('.')+2);
     }
+
 
     public static String bytoKbOrMb(long size){
 

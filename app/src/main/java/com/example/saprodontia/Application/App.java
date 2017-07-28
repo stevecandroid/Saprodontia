@@ -3,6 +3,7 @@ package com.example.saprodontia.Application;
 import android.app.Application;
 import android.content.Context;
 
+import com.example.saprodontia.Models.ContentModle;
 import com.example.saprodontia.Models.FileInfo;
 
 import org.litepal.LitePal;
@@ -22,6 +23,8 @@ public class App extends LitePalApplication{
     private ArrayList<FileInfo>  senDatas;
     private ArrayList<FileInfo> uploadingDatas;
     private ArrayList<FileInfo> uploadedDatas;
+    private ArrayList<FileInfo> downloadingDatas;
+    private ArrayList<FileInfo> downloadedDatas;
 
     private List<FileInfo> fileInfos;
     private List<FileInfo> videoInfos;
@@ -107,6 +110,17 @@ public class App extends LitePalApplication{
         this.execa = execa;
     }
 
+    public ArrayList<FileInfo> getDownloadingDatas() {
+        return downloadingDatas;
+    }
+
+
+    public ArrayList<FileInfo> getDownloadedDatas() {
+        return downloadedDatas;
+    }
+
+
+
     @Override
     public void onCreate() {
         context = getApplicationContext();
@@ -118,10 +132,13 @@ public class App extends LitePalApplication{
         appInfos = new ArrayList<>();
         uploadingDatas = new ArrayList<>();
         uploadedDatas = new ArrayList<>();
+        downloadedDatas = new ArrayList<>();
+        uploadingDatas = new ArrayList<>();
 
         LitePal.getDatabase();
         super.onCreate();
     }
+
 
     public static Context getContext(){
         return context;

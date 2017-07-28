@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.example.saprodontia.Adapter.MyPagerAdapter;
 import com.example.saprodontia.Fragment.FragAll;
+import com.example.saprodontia.Fragment.FragDowding;
 import com.example.saprodontia.Fragment.FragUping;
 import com.example.saprodontia.R;
 
@@ -45,10 +46,9 @@ public class DownLoadActivity extends AppCompatActivity {
 
     private void initAdapter(){
         List<Fragment> fragments = new ArrayList<>();
-        fragments.add(new FragUping());
+        fragments.add(new FragDowding());
         fragments.add(new FragAll());
         MyPagerAdapter mySendPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(),fragments);
         viewPager.setAdapter(mySendPagerAdapter);
-
     }
 }

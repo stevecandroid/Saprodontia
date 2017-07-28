@@ -71,19 +71,15 @@ public class ContentModle {
         boolean first = true;
         String temp = "";
         FileInfo folderInfo;
-        List<FileInfo> imageInfos = new ArrayList<>();
 
         Cursor cursor = mContentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                new String[]{MediaStore.Images.ImageColumns.DATA, MediaStore.Images.ImageColumns.DISPLAY_NAME,
-                        MediaStore.Images.ImageColumns.SIZE, MediaStore.Images.ImageColumns.TITLE, MediaStore.Images.ImageColumns._ID},
+                new String[]{MediaStore.Images.ImageColumns.DATA},
                 null, null, MediaStore.Images.ImageColumns.DATA + "  desc");
 
         if (cursor != null && cursor.moveToFirst())
             do {
 
-                FileInfo childInfo = new FileInfo();
                 String location =  cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA));
-
                 String p = new File(location).getParent();
                 String name = p.substring(p.lastIndexOf('/')+1,p.length());
 
@@ -92,28 +88,14 @@ public class ContentModle {
                     first = false;
                 }
 
-                childInfo.setLocation(location);
-                childInfo.setName(cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.DISPLAY_NAME)));
-                childInfo.setInitSize(Long.parseLong(cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.SIZE))));
-                childInfo.setType(2);
-
                 if(!temp.equals(name)){
                     folderInfo = new FileInfo();
                     folderInfo.setName(temp);
                     folderInfo.setLocation(p);
-//                    folderInfo.setChilds(imageInfos);
                     folderInfo.setType(1);
-
-                    if(!folderInfo.getName().equals("Camera") && !folderInfo.getName().equals("WeiXin") && !folderInfo.getName().equals("图片")){
                         imageFolderInfos.add(folderInfo);
-                    }
-
-
                     temp = name;
-                    imageInfos = new ArrayList<>();
                 }
-
-                imageInfos.add(childInfo);
 
             } while (cursor.moveToNext());
 
@@ -170,7 +152,7 @@ public class ContentModle {
 
                     musicInfos.add(info);
 
-                    if (t % 10 == 0 || t < 10)
+                    if (t % 20 == 0 || t < 10)
                         publishProgress();
 
                     t++;
@@ -182,12 +164,14 @@ public class ContentModle {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            mOnMusicDataChangedListener.onDataChanged();
+            if(mOnMusicDataChangedListener!=null)
+                mOnMusicDataChangedListener.onDataChanged();
             super.onPostExecute(aVoid);
         }
 
         @Override
         protected void onProgressUpdate(Void... values) {
+            if(mOnMusicDataChangedListener!=null)
             mOnMusicDataChangedListener.onDataChanged();
             super.onProgressUpdate(values);
         }
@@ -214,6 +198,7 @@ public class ContentModle {
 
             if (cursor != null && cursor.moveToFirst())
                 do {
+
                     FileInfo info = new FileInfo();
                     String location = cursor.getString(cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA));
                     String format = location.substring(location.indexOf('.'), location.length());
@@ -237,8 +222,11 @@ public class ContentModle {
 
                     progress++;
 
-
-                        publishProgress();
+                    LogUtil.e("LOADING FILE");
+                        if(progress %20 == 0 || progress<10) {
+                            publishProgress();
+                            LogUtil.e("FILE PUBLISH");
+                        }
 
 
                 } while (cursor.moveToNext());
@@ -250,13 +238,15 @@ public class ContentModle {
 
         @Override
         protected void onProgressUpdate(Integer... values) {
+            if(mOnFileDataChangedListener!=null)
             mOnFileDataChangedListener.onDataChanged(progress);
             super.onProgressUpdate(values);
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            mOnFileDataChangedListener.onDataChanged(progress);
+            if(mOnFileDataChangedListener!=null)
+                mOnFileDataChangedListener.onDataChanged(progress);
             super.onPostExecute(aVoid);
         }
     }
@@ -295,7 +285,7 @@ public class ContentModle {
                     info.setBitmap(ThumbUtils.cutBitmap(MediaStore.Video.Thumbnails.getThumbnail(mContentResolver, id, MediaStore.Video.Thumbnails.MINI_KIND, ops), 200, 200));
                     videoInfos.add(info);
 
-                    if (t % 10 == 0 || t < 10)
+                    if (t % 20 == 0 || t < 10)
                         publishProgress();
 
                     t++;

@@ -108,6 +108,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return mDatas.get(position).getType();
+    }
+
     private boolean belong(List<FileInfo> sendDatas, int pos) {
         String str = mDatas.get(pos).getLocation();
         for (int i = 0; i < sendDatas.size(); i++) {

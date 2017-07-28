@@ -93,7 +93,7 @@ public class FragC extends BaseFragment {
                 for(int i = 0 ; i < infos.size() ; i++){
                     if(infos.get(i).getName().equals(taskName)){
                         long progress = intent.getLongExtra("progress",0);
-                        infos.get(i).setProgress(progress);
+//                        infos.get(i).setProgress(progress);
                         mItemAdapter.notifyDataSetChanged();
                         break;
                     }

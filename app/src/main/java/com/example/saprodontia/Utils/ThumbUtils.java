@@ -13,7 +13,7 @@ import android.provider.MediaStore;
 
 public class ThumbUtils {
 
-    public static Bitmap getBitmapThumbnails(String path){
+    public static Bitmap getBitmapThumbnails(String path) {
 
         BitmapFactory.Options ops = new BitmapFactory.Options();
         Bitmap init = BitmapFactory.decodeFile(path,ops);

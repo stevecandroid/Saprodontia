@@ -4,6 +4,9 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.StringRes;
+
+import com.example.saprodontia.Utils.MathUtil;
 
 import org.litepal.crud.DataSupport;
 
@@ -34,10 +37,10 @@ public class FileInfo extends DataSupport implements Parcelable {
     private String location;
     private String size;
     private long initSize;
-    private long progress;
+//    private long progress;
     private int type;
 //    private List<FileInfo> childs;
-    private boolean isExpand;
+//    private boolean isExpand;
     private long mid;
 
     public long getId() {
@@ -68,13 +71,13 @@ public class FileInfo extends DataSupport implements Parcelable {
         this.isuploading = isuploading;
     }
 
-    public boolean isExpand() {
-        return isExpand;
-    }
-
-    public void setExpand(boolean expand) {
-        isExpand = expand;
-    }
+//    public boolean isExpand() {
+//        return isExpand;
+//    }
+//
+//    public void setExpand(boolean expand) {
+//        isExpand = expand;
+//    }
 
     public int getType() {
         return type;
@@ -100,19 +103,19 @@ public class FileInfo extends DataSupport implements Parcelable {
         this.bitmap = bitmap;
     }
 
-    public long getProgress() {
-        return progress;
-    }
-
-    public void setProgress(long progress) {
-        this.progress = progress;
-    }
+//    public long getProgress() {
+//        return progress;
+//    }
+//
+//    public void setProgress(long progress) {
+//        this.progress = progress;
+//    }
 
     public long getInitSize() {
         return initSize;
     }
 
-    public void setInitSize(long initSize) {
+    public void setInitSize( long initSize) {
         this.initSize = initSize;
     }
 
@@ -144,8 +147,9 @@ public class FileInfo extends DataSupport implements Parcelable {
         return size;
     }
 
-    public void setSize(String size) {
+    public void setSize( String size) {
         this.size = size;
+
     }
 
 

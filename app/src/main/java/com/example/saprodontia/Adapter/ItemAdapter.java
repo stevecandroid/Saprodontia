@@ -19,6 +19,7 @@ import com.example.saprodontia.Models.FileInfo;
 import com.example.saprodontia.R;
 import com.example.saprodontia.Utils.LogUtil;
 import com.example.saprodontia.Utils.MathUtil;
+import com.example.saprodontia.Utils.SearchUtil;
 import com.example.saprodontia.Utils.ThumbUtils;
 import com.example.saprodontia.View.MyProgressBar;
 
@@ -65,7 +66,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                 holder.image_app.setImageBitmap(fileInfo.getBitmap());
             } else if (fileInfo.getIcon() != null) {
                 holder.image_app.setImageDrawable(fileInfo.getIcon());
-            } else if (name.endsWith("jpg") || name.endsWith(".gif") ) {
+            } else if (SearchUtil.isPic(name)) {
                 Glide.with(context).load(fileInfo.getLocation()).into(holder.image_app);
             } else if (name.endsWith("doc")){
                 holder.image_app.setImageDrawable(context.getDrawable(R.drawable.word));

@@ -1,6 +1,15 @@
 package com.example.saprodontia.Utils;
 
+import android.Manifest;
+import android.support.annotation.FloatRange;
+import android.support.annotation.IntRange;
+import android.support.annotation.Nullable;
+import android.support.annotation.RequiresPermission;
+import android.support.annotation.Size;
 import android.util.Log;
+
+import static android.Manifest.*;
+import static android.Manifest.permission.*;
 
 /**
  * Created by 铖哥 on 2017/7/16.
@@ -10,7 +19,8 @@ public class LogUtil {
 
     static boolean allowLog = true;
 
-    public static void d (Object content){
+    @RequiresPermission(INTERNET)
+    public static void d ( Object content){
         if(allowLog && content != null) {
             Log.d(TAG(), content.toString());
         }

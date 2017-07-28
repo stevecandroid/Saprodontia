@@ -1,6 +1,8 @@
 package com.example.saprodontia.Activities;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -18,18 +20,20 @@ import com.example.saprodontia.Application.App;
 import com.example.saprodontia.Fragment.FragApp;
 import com.example.saprodontia.Fragment.FragDocu;
 import com.example.saprodontia.Fragment.FragMusic;
-import com.example.saprodontia.Fragment.FragPhoto;
+
+import com.example.saprodontia.Fragment.FragPicFolder;
 import com.example.saprodontia.Fragment.FragVideo;
 import com.example.saprodontia.Models.FileInfo;
 import com.example.saprodontia.Models.UpLoadModel;
 import com.example.saprodontia.Models.WifiModle;
 import com.example.saprodontia.R;
 import com.example.saprodontia.Utils.LogUtil;
+import com.example.saprodontia.Utils.MathUtil;
+import com.example.saprodontia.Utils.ThumbUtils;
 import com.example.saprodontia.Utils.ToastUtil;
 
 import org.litepal.crud.DataSupport;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,12 +67,13 @@ public class SendActivity extends BaseActivity implements View.OnClickListener {
         initData();
 
 
-
         tabLayout.getTabAt(0).setText("图片");
         tabLayout.getTabAt(1).setText("应用");
         tabLayout.getTabAt(2).setText("文档");
         tabLayout.getTabAt(3).setText("视频");
         tabLayout.getTabAt(4).setText("音乐");
+
+//        MathUtil.bytoKbOrMb(123);
 
     }
 
@@ -88,7 +93,7 @@ public class SendActivity extends BaseActivity implements View.OnClickListener {
 
     private void initAdapter(){
         List<Fragment> fragments = new ArrayList<>();
-        fragments.add(new FragPhoto());
+        fragments.add(new FragPicFolder());
         fragments.add(new FragApp());
         fragments.add(new FragDocu());
         fragments.add(new FragVideo());
