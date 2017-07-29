@@ -31,7 +31,8 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-public class PicFragment extends Fragment {
+
+public class PicFragment extends BaseFragment {
 
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +51,12 @@ public class PicFragment extends Fragment {
 //        });
 //    }
 
+    PicAdapter picAdapter ;
 
     public PicFragment() {
         super();
     }
+
 
     @Nullable
     @Override
@@ -65,12 +68,19 @@ public class PicFragment extends Fragment {
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         toolbar.setTitle(path.substring(path.lastIndexOf('/')+1,path.length()));
 
-
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),3));
-        recyclerView.setAdapter(new PicAdapter(pictures));
+        picAdapter = new PicAdapter(pictures);
+        recyclerView.setAdapter(picAdapter);
         recyclerView.addItemDecoration(new RecycleDecoration());
         return view;
+
+
+    }
+
+    @Override
+    protected void notifyAdapter() {
+        picAdapter.notifyDataSetChanged();
     }
 
 //    @Override
@@ -79,6 +89,8 @@ public class PicFragment extends Fragment {
 //
 //
 //    }
+
+
 
 
 

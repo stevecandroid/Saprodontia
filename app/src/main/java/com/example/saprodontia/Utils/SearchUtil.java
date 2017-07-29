@@ -81,8 +81,11 @@ public class SearchUtil {
             String temp = files[i].getPath();
             if(isPic(temp)){
                 FileInfo pictureInfo = new FileInfo();
+                long initSize = new File(temp).length();
                 pictureInfo.setLocation(temp);
                 pictureInfo.setName(temp.substring(temp.lastIndexOf('/')+1,temp.length()));
+                pictureInfo.setSize(MathUtil.bytoKbOrMb(initSize));
+                pictureInfo.setInitSize(initSize);
                 pictures.add(pictureInfo);
             }
         }

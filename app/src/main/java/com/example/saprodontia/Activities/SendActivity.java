@@ -70,7 +70,6 @@ public class SendActivity extends BaseActivity implements View.OnClickListener {
 
         initData();
 
-
         tabLayout.getTabAt(0).setText("图片");
         tabLayout.getTabAt(1).setText("应用");
         tabLayout.getTabAt(2).setText("文档");
@@ -206,7 +205,7 @@ public class SendActivity extends BaseActivity implements View.OnClickListener {
             if (fileInfos.get(i).isuploading()){
                 uploadingDatas.add(fileInfos.get(i));
             }else{
-                uploadedDatas.add(fileInfos.get(i));
+                uploadedDatas.add(0,fileInfos.get(i));
             }
         }
 

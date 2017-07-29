@@ -48,9 +48,7 @@ public class MyProgressBar extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.  onDraw(canvas);
-
             canvas.drawRect(0, 0, (float) ((destProgress * getWidth() +0.0 )/( max + 0.0)), getHeight(), mPaint);
-            LogUtil.e((destProgress * getWidth()));
 
     }
 
@@ -61,7 +59,6 @@ public class MyProgressBar extends View {
 
 
     public void setProgress(double destProgress) {
-        LogUtil.e("DESTPROGRESS  "+destProgress);
             this.destProgress = destProgress;
         postInvalidate();
     }

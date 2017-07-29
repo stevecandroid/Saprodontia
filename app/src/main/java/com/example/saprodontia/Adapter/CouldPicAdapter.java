@@ -73,7 +73,7 @@ public class CouldPicAdapter extends RecyclerView.Adapter<CouldPicAdapter.CloudH
             holder.checkBox.setVisibility(GONE);
         }
 
-       imageLoader.loadBitmap(pictures.get(position),50,50).into(holder.image_head);
+       imageLoader.bindBitmap(pictures.get(position),holder.image_head,100,100);
 
     }
 

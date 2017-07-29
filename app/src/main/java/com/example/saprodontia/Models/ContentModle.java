@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import com.example.saprodontia.Application.App;
 import com.example.saprodontia.R;
@@ -84,18 +85,27 @@ public class ContentModle {
                 String name = p.substring(p.lastIndexOf('/')+1,p.length());
 
                 if(first) {
-                    temp = name;
+                    temp = p;
                     first = false;
+
+                    folderInfo = new FileInfo();
+                    folderInfo.setName(name);
+                    folderInfo.setLocation(p);
+                    folderInfo.setType(1);
+                    imageFolderInfos.add(folderInfo);
                 }
 
-                if(!temp.equals(name)){
+                if(!temp.equals(p)){
+                    LogUtil.e("UNEQUALS" + temp + "   and " + p);
                     folderInfo = new FileInfo();
-                    folderInfo.setName(temp);
+                    folderInfo.setName(name);
                     folderInfo.setLocation(p);
                     folderInfo.setType(1);
                         imageFolderInfos.add(folderInfo);
-                    temp = name;
+                    temp = p;
                 }
+
+
 
             } while (cursor.moveToNext());
 

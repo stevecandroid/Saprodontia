@@ -39,8 +39,9 @@ public class FragAll extends BaseFragment {
             @Override
             public void onTaskFinish(FileInfo sendDatas) {
                 List<FileInfo> uploadedDatas = ((App)(App.getContext().getApplicationContext())).getUploadedDatas();
-                uploadedDatas.add(sendDatas);
-                adapter.notifyItemInserted(uploadedDatas.size());
+                uploadedDatas.add(0,sendDatas);
+                adapter.notifyItemInserted(0);
+                recyclerView.smoothScrollToPosition(0);
             }
         });
     }
